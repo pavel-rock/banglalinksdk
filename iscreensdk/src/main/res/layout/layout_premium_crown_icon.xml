@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:id="@+id/image_premium"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/crown_circle"
+    android:layout_width="@dimen/_18sdp"
+    android:layout_height="@dimen/_22sdp">
+
+    <ImageView
+        android:background="@drawable/ic_crown"
+        android:layout_margin="@dimen/_3sdp"
+        android:layout_width="@dimen/_14sdp"
+        android:layout_centerInParent="true"
+        android:layout_height="@dimen/_11sdp"/>
+
+</RelativeLayout>

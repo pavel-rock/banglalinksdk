@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:id="@+id/video_layout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_90sdp">
+
+            <com.rockstreamer.iscreensdk.utils.RoundRectCornerImageView
+                android:id="@+id/video_thumb_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY" />
+
+            <include
+                android:id="@+id/premium_layout"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_margin="@dimen/crown_icon_padding"
+                layout="@layout/layout_premium_crown_icon"/>
+
+        </FrameLayout>
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/content_title"
+            android:layout_below="@id/video_layout"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/_3sdp"
+            android:textSize="@dimen/category_title_size"
+            android:textColor="@color/black"
+            android:layout_width="@dimen/video_image_width"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>

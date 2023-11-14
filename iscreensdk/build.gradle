@@ -1,0 +1,110 @@
+plugins {
+    id "com.android.library"
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'kotlin-android'
+    id 'maven-publish'
+}
+
+def exoPlayerVersion = '2.16.1'
+
+android {
+    namespace 'com.rockstreamer.iscreensdk'
+    compileSdk 32
+
+    defaultConfig {
+        minSdk 21
+        targetSdk 32
+        versionCode 1
+        versionName "1.0"
+        vectorDrawables.useSupportLibrary = true
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = '17'
+    }
+    buildFeatures {
+        viewBinding true
+        dataBinding true
+    }
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(17)        // << --- ADD This
+        }
+    }
+}
+
+dependencies {
+
+    implementation 'androidx.core:core-ktx:1.3.2'
+    implementation 'androidx.appcompat:appcompat:1.4.0'
+    implementation 'com.google.android.material:material:1.4.0'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+    def koin_version = '3.2.0'
+    implementation "io.insert-koin:koin-core:$koin_version"
+    implementation "io.insert-koin:koin-android:$koin_version"
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
+    implementation "androidx.preference:preference-ktx:1.2.0"
+    implementation 'androidx.palette:palette-ktx:1.0.0'
+    def retrofit_version = '2.6.2'
+
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation 'com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.10'
+    implementation 'org.greenrobot:eventbus:3.1.1'
+    implementation "androidx.paging:paging-runtime-ktx:3.1.1" // paging library
+    implementation 'com.intuit.sdp:sdp-android:1.0.6'
+    implementation 'com.github.IslamKhSh:CardSlider:1.0.1' // image slider
+    def glide_version = '4.12.0'
+    implementation "com.github.bumptech.glide:glide:$glide_version"
+    kapt "com.github.bumptech.glide:compiler:$glide_version"
+    implementation 'com.github.GrenderG:Toasty:1.5.2'
+    implementation 'androidx.media:media:1.6.0'
+
+    // ExoPlayer
+    api "com.google.android.exoplayer:exoplayer-ui:$exoPlayerVersion"
+    api "com.google.android.exoplayer:exoplayer-core:$exoPlayerVersion"
+    api "com.google.android.exoplayer:exoplayer-dash:$exoPlayerVersion"
+    api "com.google.android.exoplayer:exoplayer-hls:$exoPlayerVersion"
+    api "com.google.android.exoplayer:exoplayer-smoothstreaming:$exoPlayerVersion"
+    api "com.google.android.exoplayer:extension-ima:$exoPlayerVersion"
+    api "com.google.android.exoplayer:extension-mediasession:$exoPlayerVersion"
+    api "com.google.android.exoplayer:extension-cronet:$exoPlayerVersion"
+    // ExoPlayer
+    implementation "com.google.android.exoplayer:exoplayer-ui:$exoPlayerVersion" // Subtitles
+    implementation "com.google.android.exoplayer:extension-okhttp:$exoPlayerVersion" // Custom HTTP
+    implementation 'com.google.ads.interactivemedia.v3:interactivemedia:3.28.1'
+}
+
+
+afterEvaluate {
+    publishing {
+        publications {
+
+            // Creates a Maven publication called "release".
+            release(MavenPublication) {
+                // Applies the component for the release build variant.
+                from components.release
+                // You can then customize attributes of the publication as shown below.
+                groupId = 'rockstreamer'
+                artifactId = 'iscreensdk'
+                version = '1.2.5'
+            }
+        }
+    }
+}

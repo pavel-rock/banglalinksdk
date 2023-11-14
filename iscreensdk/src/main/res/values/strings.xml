@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">iscreensdk</string>
+    <string name="watch_now">WATCH NOW</string>
+    <string name="more">More</string>
+    <string name="premium_button">Buy Subscription to Watch Full Video</string>
+    <string name="watch_trailer">Trailer</string>
+    <string name="recomonded_video">Recommended</string>
+    <string name="series">Series</string>
+</resources>
