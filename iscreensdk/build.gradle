@@ -103,7 +103,7 @@ afterEvaluate {
                 // You can then customize attributes of the publication as shown below.
                 groupId = 'pavel-rock'
                 artifactId = 'iscreensdk'
-                version = '1.2.11'
+                version = '1.2.12'
             }
         }
     }
