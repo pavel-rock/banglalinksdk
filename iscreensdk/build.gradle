@@ -8,6 +8,9 @@ plugins {
 
 def exoPlayerVersion = '2.16.1'
 
+group = 'com.rockstreamer.iscreensdk'
+version = '1.2.13'
+
 android {
     namespace 'com.rockstreamer.iscreensdk'
     compileSdk 32
@@ -101,9 +104,9 @@ afterEvaluate {
                 // Applies the component for the release build variant.
                 from components.release
                 // You can then customize attributes of the publication as shown below.
-                groupId = 'pavel-rock'
-                artifactId = 'iscreensdk'
-                version = '1.2.12'
+                groupId = 'com.rockstreamer.iscreensdk'
+                artifactId = 'banglalinksdk'
+                version = '1.2.13'
             }
         }
     }
