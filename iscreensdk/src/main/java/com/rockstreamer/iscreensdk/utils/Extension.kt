@@ -14,12 +14,13 @@ import com.rockstreamer.iscreensdk.R
 import com.rockstreamer.iscreensdk.activity.SeeMoreActivity
 import com.rockstreamer.iscreensdk.activity.SeriesDetailsActivity
 import com.rockstreamer.iscreensdk.activity.VideoDetailsActivity
+import com.rockstreamer.iscreensdk.listeners.oniScreenPremiumCallBack
 import com.rockstreamer.iscreensdk.pojo.ProfileData
 import com.rockstreamer.iscreensdk.pojo.others.Cast
 import com.rockstreamer.iscreensdk.pojo.others.Genres
 import com.rockstreamer.iscreensdk.pojo.series.Directors
 import es.dmoral.toasty.Toasty
-
+import kotlin.math.log
 
 
 fun getHeaders():Map<String, String>{
@@ -42,6 +43,11 @@ fun SharedPreferences.putAny(tag: String, any: Any) {
         is Int -> edit().putInt(tag, any).apply()
     }
 }
+
+fun SharedPreferences.clean(){
+    edit().clear()
+}
+
 
 fun Context.showSuccessToast(message:String){
     Toasty.success(applicationContext , "$message" , Toast.LENGTH_SHORT , false).show()
@@ -144,11 +150,6 @@ fun Long.millisToFormattedDuration(): String {
 
 
 
-
-fun openiScreenSingleContent(contentId:String , type:Int){
-
-}
-
 fun getMostPopulousSwatch(palette: Palette?): Palette.Swatch? {
     var mostPopulous: Palette.Swatch? = null
     if (palette != null) {
@@ -200,10 +201,18 @@ fun getContentType(type:String): Int{
     }
 }
 
-fun openiScreenSDK(apiToken:String, context: Context){
-    loginState.putAny(API_TOKEN , apiToken)
-    IScreenActivity.setInterfaceInstance(context)
-    context.startActivity(Intent(context.applicationContext , IScreenActivity::class.java))
+fun Context.openiScreenSDK(callback: oniScreenPremiumCallBack){
+    IScreenActivity.setInterfaceInstance(callback)
+    startActivity(Intent(this, IScreenActivity::class.java))
+}
+
+
+fun iScreenSDKInit(apiToken: String){
+    loginState.putAny(API_TOKEN, apiToken)
+}
+
+fun cleanIScreenSDK(){
+    loginState.clean()
 }
 
 //fun oniScreenTokenStatus():Boolean{

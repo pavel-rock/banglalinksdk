@@ -32,8 +32,8 @@ class IScreenActivity : BaseActivity() , onBannerCallback, OnCategoryCallback, o
 
     companion object{
         var callback: oniScreenPremiumCallBack?=null
-        fun setInterfaceInstance(context: Context?){
-            callback = context as oniScreenPremiumCallBack
+        fun setInterfaceInstance(callBack: oniScreenPremiumCallBack){
+            this.callback = callBack
         }
 
     }
