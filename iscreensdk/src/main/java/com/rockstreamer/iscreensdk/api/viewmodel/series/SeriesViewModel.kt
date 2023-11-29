@@ -23,7 +23,11 @@ class SeriesViewModel(private val contentRepository: ContentRepository, private 
                     if (it.isSuccessful){
                         _seriesResponse.postValue(Resource.success(it.body()))
                     } else {
-                        _seriesResponse.postValue(Resource.error(contentRepository.errorResponseManager(it.errorBody()!!), null))
+                        if (it.code() == 403 || it.code() ==401){
+                            _seriesResponse.postValue(Resource.invalidToken(null))
+                        }else{
+                            _seriesResponse.postValue(Resource.error(contentRepository.errorResponseManager(it.errorBody()!!), null))
+                        }
                     }
                 }
             } else _seriesResponse.postValue(Resource.error("No Internet Connection", null))

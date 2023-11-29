@@ -2,6 +2,7 @@ package com.rockstreamer.koinandroidexample
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -12,6 +13,8 @@ import android.view.Menu
 import android.view.MenuItem
 import com.rockstreamer.iscreensdk.listeners.oniScreenPremiumCallBack
 import com.rockstreamer.iscreensdk.utils.cleanIScreenSDK
+import com.rockstreamer.iscreensdk.utils.openDetailsScreen
+import com.rockstreamer.iscreensdk.utils.openiScreenContentFromBl
 import com.rockstreamer.iscreensdk.utils.openiScreenSDK
 import com.rockstreamer.koinandroidexample.databinding.ActivityMainBinding
 
@@ -29,6 +32,8 @@ class MainActivity : AppCompatActivity() , oniScreenPremiumCallBack {
 
         binding.fab.setOnClickListener { view ->
             openiScreenSDK(this)
+
+            //openiScreenContentFromBl(id = "6530", type = "series", this)
         }
 
     }
@@ -50,11 +55,12 @@ class MainActivity : AppCompatActivity() , oniScreenPremiumCallBack {
     }
 
     override fun onPremiumContentClick(context: Context, contentId: String, type: Int) {
-
+        //openDetailsScreen(id = "", type = type)
+        Log.d("APP_STATUS", "Premium Content")
     }
 
     override fun onTokenInvalid() {
-
+        Log.d("APP_STATUS", "On Invalid Token")
     }
 
 }

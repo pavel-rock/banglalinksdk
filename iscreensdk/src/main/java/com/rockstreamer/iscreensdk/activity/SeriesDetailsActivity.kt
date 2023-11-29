@@ -19,13 +19,16 @@ import com.rockstreamer.iscreensdk.activity.base.onDeviceRotation
 import com.rockstreamer.iscreensdk.adapter.SeriesAdapter
 import com.rockstreamer.iscreensdk.databinding.SeriesDetailsActivityBinding
 import com.rockstreamer.iscreensdk.listeners.OnSeriesCallBack
+import com.rockstreamer.iscreensdk.listeners.oniScreenPremiumCallBack
 import com.rockstreamer.iscreensdk.pojo.others.Genres
 import com.rockstreamer.iscreensdk.pojo.series.EpisodeItem
 import com.rockstreamer.iscreensdk.pojo.series.SeasonContent
 import com.rockstreamer.iscreensdk.pojo.series.SeriesInfo
 import com.rockstreamer.iscreensdk.utils.EqualSpacingItemDecoration
+import com.rockstreamer.iscreensdk.utils.SERIES_CONTENT
 import com.rockstreamer.iscreensdk.utils.SERIES_ID_PASS
 import com.rockstreamer.iscreensdk.utils.StartSnapHelper
+import com.rockstreamer.iscreensdk.utils.getSubscriptionInformation
 import com.rockstreamer.iscreensdk.utils.gone
 import com.rockstreamer.iscreensdk.utils.millisToFormattedDuration
 import com.rockstreamer.iscreensdk.utils.show
@@ -61,6 +64,16 @@ class SeriesDetailsActivity : DetailsBaseActivity(), OnSeriesCallBack, onDeviceR
 
     }
     lateinit var contentTitle: TextView
+
+    companion object{
+        var callback: oniScreenPremiumCallBack?=null
+        fun setInterfaceInstance(callBack: oniScreenPremiumCallBack){
+            this.callback = callBack
+        }
+
+    }
+
+
     override fun onCreateDetailsView(savedInstanceState: Bundle?) {
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         window.setFlags(
@@ -76,9 +89,6 @@ class SeriesDetailsActivity : DetailsBaseActivity(), OnSeriesCallBack, onDeviceR
         showNextPreviousController(value = true)
         contentTitle = findViewById(R.id.content_title)
         setupController(findViewById<LinearLayout>(R.id.linear_control))
-
-
-
 
         binding.premiumButton.setOnClickListener {
 
@@ -108,7 +118,10 @@ class SeriesDetailsActivity : DetailsBaseActivity(), OnSeriesCallBack, onDeviceR
             when(it.status){
 
                 Status.INVALIDTOKEN ->{
-
+                    alertDialog.dismiss()
+                    if (callback!=null){
+                        callback!!.onTokenInvalid()
+                    }
                 }
 
                 Status.LOADING ->{
@@ -118,17 +131,23 @@ class SeriesDetailsActivity : DetailsBaseActivity(), OnSeriesCallBack, onDeviceR
                 Status.SUCCESS ->{
                     alertDialog.dismiss()
                     seriesInfo = it.data!!.seriesInfo
-                    displayVideoInfo(it.data!!.seriesInfo)
-                    showSpinner(it.data!!.contents)
+                    displayVideoInfo(it.data.seriesInfo)
 
+                    if (seriesInfo.premium){
+                        if (getSubscriptionInformation().subscribe){
+                            showSpinner(it.data.contents)
+                        }else{
+                            callback!!.onPremiumContentClick(context = this , contentId = "${it.data.seriesInfo.id}", type = SERIES_CONTENT)
+                        }
+                    }else{
+                        showSpinner(it.data.contents)
+                    }
                 }
                 Status.ERROR ->{
                     alertDialog.dismiss()
                 }
             }
         }
-
-
 
         findViewById<ImageView>(R.id.image_back_arrow).setOnClickListener {
             onBackArrowPressed()

@@ -17,11 +17,14 @@ import com.rockstreamer.iscreensdk.activity.base.onDeviceRotation
 import com.rockstreamer.iscreensdk.adapter.RecommandAdapter
 import com.rockstreamer.iscreensdk.databinding.ActivityVideoDetailsBinding
 import com.rockstreamer.iscreensdk.listeners.OnRecommandCallback
+import com.rockstreamer.iscreensdk.listeners.oniScreenPremiumCallBack
 import com.rockstreamer.iscreensdk.pojo.details.VideoDetailsResponse
 import com.rockstreamer.iscreensdk.pojo.recommand.RecommendedResponse
 import com.rockstreamer.iscreensdk.utils.EqualSpacingItemDecoration
 import com.rockstreamer.iscreensdk.utils.StartSnapHelper
+import com.rockstreamer.iscreensdk.utils.VIDEO_CONTENT
 import com.rockstreamer.iscreensdk.utils.VIDEO_ID_PASS
+import com.rockstreamer.iscreensdk.utils.getSubscriptionInformation
 import com.rockstreamer.iscreensdk.utils.gone
 import com.rockstreamer.iscreensdk.utils.millisToFormattedDuration
 import com.rockstreamer.iscreensdk.utils.processCast
@@ -40,12 +43,16 @@ class VideoDetailsActivity : DetailsBaseActivity(), OnRecommandCallback, onDevic
 
     private var trailerLink:String?=null
     private var contentID:String?=null
-
     private var isLive: Boolean = false
-
     lateinit var contentTitle: TextView
 
+    companion object{
+        var callback: oniScreenPremiumCallBack?=null
+        fun setInterfaceInstance(callBack: oniScreenPremiumCallBack){
+            this.callback = callBack
+        }
 
+    }
 
     override fun onCreateDetailsView(savedInstanceState: Bundle?) {
 
@@ -91,17 +98,34 @@ class VideoDetailsActivity : DetailsBaseActivity(), OnRecommandCallback, onDevic
 
         videoDetailsViewModel.videoResponse.observe(this){
             when(it.status){
-                Status.INVALIDTOKEN->{
 
+                Status.INVALIDTOKEN->{
+                    alertDialog.dismiss()
+                    if (callback!=null){
+                        callback?.onTokenInvalid()
+                    }
                 }
+
                 Status.LOADING ->{
                     alertDialog.show()
                 }
+
                 Status.SUCCESS ->{
                     alertDialog.dismiss()
                     displayVideoInfo(it.data!!)
-                    videoDetailsResponse = it.data!!
-                    playVideo(videoDetailsResponse!!)
+                    videoDetailsResponse = it.data
+
+                    if (it.data.premium){
+                        if (getSubscriptionInformation().subscribe){
+                            playVideo(videoDetailsResponse!!)
+                        }else{
+                            if (callback !=null){
+                                callback?.onPremiumContentClick(context = this, contentId = "${videoDetailsResponse!!.id}", type = VIDEO_CONTENT )
+                            }
+                        }
+                    }else{
+                        playVideo(videoDetailsResponse!!)
+                    }
                 }
                 Status.ERROR ->{
                     alertDialog.dismiss()
@@ -186,21 +210,7 @@ class VideoDetailsActivity : DetailsBaseActivity(), OnRecommandCallback, onDevic
 
 
     override fun onVideoEnd() {
-//        if (videoDetailsResponse!!.premium){
-//            showErrorToast("Premium Content")
-////                if (!PreferenceUtil.isSubscribed){
-////                    showPaymentBottomShit(text = "To watch this full video. Please buy a subscription")
-////                    if (isFullScreen){
-////                        fullScreenEnter(binding.videoView , binding.videoFrameLayout)
-////                    }
-////                }else{
-////                    playContent("${videoDetailsResponse!!.path}")
-////                    contentTitle.text = "${videoDetailsResponse!!.title}"
-////                }
-//        }else{
-//            playContent("${videoDetailsResponse!!.path}")
-//            contentTitle.text = "${videoDetailsResponse!!.title}"
-//        }
+
     }
 
     override fun onIdle() {
@@ -229,18 +239,6 @@ class VideoDetailsActivity : DetailsBaseActivity(), OnRecommandCallback, onDevic
                 playContent("${videoDetailsResponse.trailerPath}")
                 contentTitle.text = "${videoDetailsResponse.title} Trailer"
             }
-
-
-//                if (PreferenceUtil.isSubscribed){
-//                    playContent("${videoDetailsResponse.path}")
-//                }else {
-//                    if (videoDetailsResponse.trailer){
-//                        playContent("${videoDetailsResponse.trailerPath}")
-//                        contentTitle.text = "${videoDetailsResponse.title} Trailer"
-//                    }else{
-//                        playContent("${videoDetailsResponse.path}", duration = 30000)
-//                    }
-//                }
         }else{
             playContent("${videoDetailsResponse.path}")
         }

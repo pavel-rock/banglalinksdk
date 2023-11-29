@@ -23,7 +23,11 @@ class VideoDetailsViewModel(private val contentRepository: ContentRepository, pr
                     if (it.isSuccessful){
                         _videoResponse.postValue(Resource.success(it.body()))
                     } else {
-                        _videoResponse.postValue(Resource.error(contentRepository.errorResponseManager(it.errorBody()!!), null))
+                        if (it.code() == 403 || it.code() ==401){
+                            _videoResponse.postValue(Resource.invalidToken(null))
+                        }else{
+                            _videoResponse.postValue(Resource.error(contentRepository.errorResponseManager(it.errorBody()!!), null))
+                        }
                     }
                 }
             } else _videoResponse.postValue(Resource.error("No Internet Connection", null))

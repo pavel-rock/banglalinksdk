@@ -89,8 +89,28 @@ fun Context.openDetailsScreen(id:String , type:Int){
 }
 
 
+fun Context.openiScreenContentFromBl(id:String , type:String, callback: oniScreenPremiumCallBack){
+    when(type){
+        "video" ->{
+            var intent = Intent(this, VideoDetailsActivity::class.java)
+            intent.putExtra(VIDEO_ID_PASS, "" + id)
+            VideoDetailsActivity.setInterfaceInstance(callback)
+            startActivity(intent)
+        }
+
+        "series" ->{
+            var intent = Intent(this, SeriesDetailsActivity::class.java)
+            intent.putExtra(SERIES_ID_PASS, "" + id)
+            SeriesDetailsActivity.setInterfaceInstance(callback)
+            startActivity(intent)
+        }
+    }
+}
+
+
 fun Context.openVideoDetailsActivityWithoutAds(id:String){
     var intent = Intent(this, VideoDetailsActivity::class.java)
+
     intent.putExtra(VIDEO_ID_PASS, "" + id)
     startActivity(intent)
 }

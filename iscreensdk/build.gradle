@@ -9,7 +9,7 @@ plugins {
 def exoPlayerVersion = '2.16.1'
 
 group = 'com.rockstreamer.iscreensdk'
-version = '1.2.13'
+version = '1.2.14'
 
 android {
     namespace 'com.rockstreamer.iscreensdk'
@@ -106,7 +106,7 @@ afterEvaluate {
                 // You can then customize attributes of the publication as shown below.
                 groupId = 'com.rockstreamer.iscreensdk'
                 artifactId = 'banglalinksdk'
-                version = '1.2.13'
+                version = '1.2.14'
             }
         }
     }
