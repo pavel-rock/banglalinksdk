@@ -9,7 +9,7 @@ plugins {
 def exoPlayerVersion = '2.16.1'
 
 group = 'com.rockstreamer.iscreensdk'
-version = '1.2.14'
+version = '1.2.15'
 
 android {
     namespace 'com.rockstreamer.iscreensdk'
@@ -31,21 +31,21 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        jvmTarget = '17'
+        jvmTarget = '1.8'
     }
     buildFeatures {
         viewBinding true
         dataBinding true
     }
-    java {
-        toolchain {
-            languageVersion = JavaLanguageVersion.of(17)        // << --- ADD This
-        }
-    }
+//    java {
+//        toolchain {
+//            languageVersion = JavaLanguageVersion.of(17)        // << --- ADD This
+//        }
+//    }
 }
 
 dependencies {
@@ -106,7 +106,7 @@ afterEvaluate {
                 // You can then customize attributes of the publication as shown below.
                 groupId = 'com.rockstreamer.iscreensdk'
                 artifactId = 'banglalinksdk'
-                version = '1.2.14'
+                version = '1.2.15'
             }
         }
     }
