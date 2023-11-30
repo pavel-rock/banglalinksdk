@@ -227,6 +227,16 @@ fun Context.openiScreenSDK(callback: oniScreenPremiumCallBack){
 }
 
 
+fun Context.registerOnSharedPreferenceChangedListener(
+    listener: SharedPreferences.OnSharedPreferenceChangeListener,
+) = loginState.registerOnSharedPreferenceChangeListener(listener)
+
+
+fun Context.unregisterOnSharedPreferenceChangedListener(
+    changeListener: SharedPreferences.OnSharedPreferenceChangeListener,
+) = loginState.unregisterOnSharedPreferenceChangeListener(changeListener)
+
+
 fun iScreenSDKInit(apiToken: String){
     loginState.putAny(API_TOKEN, apiToken)
 }

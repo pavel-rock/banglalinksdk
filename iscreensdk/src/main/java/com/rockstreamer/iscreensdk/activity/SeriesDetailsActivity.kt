@@ -1,6 +1,7 @@
 package com.rockstreamer.iscreensdk.activity
 
 import android.annotation.SuppressLint
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import android.view.Window
@@ -31,9 +32,11 @@ import com.rockstreamer.iscreensdk.utils.StartSnapHelper
 import com.rockstreamer.iscreensdk.utils.getSubscriptionInformation
 import com.rockstreamer.iscreensdk.utils.gone
 import com.rockstreamer.iscreensdk.utils.millisToFormattedDuration
+import com.rockstreamer.iscreensdk.utils.registerOnSharedPreferenceChangedListener
 import com.rockstreamer.iscreensdk.utils.show
+import com.rockstreamer.iscreensdk.utils.unregisterOnSharedPreferenceChangedListener
 
-class SeriesDetailsActivity : DetailsBaseActivity(), OnSeriesCallBack, onDeviceRotation {
+class SeriesDetailsActivity : DetailsBaseActivity(), OnSeriesCallBack, onDeviceRotation, SharedPreferences.OnSharedPreferenceChangeListener{
 
     private var _binding : SeriesDetailsActivityBinding?=null
     private val binding get() = _binding!!
@@ -50,6 +53,7 @@ class SeriesDetailsActivity : DetailsBaseActivity(), OnSeriesCallBack, onDeviceR
 
     private var contentID:String?=null
 
+    lateinit var argumentId : String
 
     override fun onStartDetails() {
 
@@ -89,13 +93,14 @@ class SeriesDetailsActivity : DetailsBaseActivity(), OnSeriesCallBack, onDeviceR
         showNextPreviousController(value = true)
         contentTitle = findViewById(R.id.content_title)
         setupController(findViewById<LinearLayout>(R.id.linear_control))
-
+        registerOnSharedPreferenceChangedListener(this)
         binding.premiumButton.setOnClickListener {
 
         }
 
         var argument = intent.getStringExtra(SERIES_ID_PASS)
         if (argument != null) {
+            argumentId = argument
             seriesViewModel.getSeriesDetails(argument)
         }
 
@@ -164,6 +169,12 @@ class SeriesDetailsActivity : DetailsBaseActivity(), OnSeriesCallBack, onDeviceR
             }
         }
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterOnSharedPreferenceChangedListener(this)
+    }
+
 
     private fun onBackArrowPressed() {
         if (isFullScreen){
@@ -357,6 +368,10 @@ class SeriesDetailsActivity : DetailsBaseActivity(), OnSeriesCallBack, onDeviceR
 
     override fun onDownloadPause() {
 
+    }
+
+    override fun onSharedPreferenceChanged(p0: SharedPreferences?, p1: String?) {
+        seriesViewModel.getSeriesDetails(argumentId)
     }
 
 }

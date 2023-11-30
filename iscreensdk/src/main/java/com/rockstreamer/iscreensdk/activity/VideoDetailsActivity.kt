@@ -1,6 +1,7 @@
 package com.rockstreamer.iscreensdk.activity
 
 import android.annotation.SuppressLint
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.view.Window
@@ -29,9 +30,11 @@ import com.rockstreamer.iscreensdk.utils.gone
 import com.rockstreamer.iscreensdk.utils.millisToFormattedDuration
 import com.rockstreamer.iscreensdk.utils.processCast
 import com.rockstreamer.iscreensdk.utils.processDirector
+import com.rockstreamer.iscreensdk.utils.registerOnSharedPreferenceChangedListener
 import com.rockstreamer.iscreensdk.utils.show
+import com.rockstreamer.iscreensdk.utils.unregisterOnSharedPreferenceChangedListener
 
-class VideoDetailsActivity : DetailsBaseActivity(), OnRecommandCallback, onDeviceRotation {
+class VideoDetailsActivity : DetailsBaseActivity(), OnRecommandCallback, onDeviceRotation , SharedPreferences.OnSharedPreferenceChangeListener{
 
     private var _binding: ActivityVideoDetailsBinding?=null
     private val binding get() = _binding!!
@@ -46,12 +49,19 @@ class VideoDetailsActivity : DetailsBaseActivity(), OnRecommandCallback, onDevic
     private var isLive: Boolean = false
     lateinit var contentTitle: TextView
 
+    lateinit var argumentId : String
+
     companion object{
         var callback: oniScreenPremiumCallBack?=null
         fun setInterfaceInstance(callBack: oniScreenPremiumCallBack){
             this.callback = callBack
         }
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterOnSharedPreferenceChangedListener(this)
     }
 
     override fun onCreateDetailsView(savedInstanceState: Bundle?) {
@@ -68,7 +78,7 @@ class VideoDetailsActivity : DetailsBaseActivity(), OnRecommandCallback, onDevic
         contentTitle = findViewById(R.id.content_title)
         setOnDeviceRotationListener(this)
         setupController(findViewById<LinearLayout>(R.id.linear_control))
-
+        registerOnSharedPreferenceChangedListener(this)
         binding.premiumButton.setOnClickListener {
 
         }
@@ -78,6 +88,7 @@ class VideoDetailsActivity : DetailsBaseActivity(), OnRecommandCallback, onDevic
 
         var argument = intent.getStringExtra(VIDEO_ID_PASS)
         if (argument != null) {
+            argumentId = argument
             videoDetailsViewModel.getVideoDetails(argument)
             recommandViewModel.recommandApi("video")
         }
@@ -335,5 +346,10 @@ class VideoDetailsActivity : DetailsBaseActivity(), OnRecommandCallback, onDevic
 
     override fun onDownloadPause() {
 
+    }
+
+    override fun onSharedPreferenceChanged(p0: SharedPreferences?, p1: String?) {
+        videoDetailsViewModel.getVideoDetails(argumentId)
+        recommandViewModel.recommandApi("video")
     }
 }

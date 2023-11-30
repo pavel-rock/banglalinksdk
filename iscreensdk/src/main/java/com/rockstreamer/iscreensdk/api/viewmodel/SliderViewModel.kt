@@ -20,6 +20,10 @@ class SliderViewModel(private val contentRepository: ContentRepository, private 
         sliderApiCall()
     }
 
+    fun retrySliderApi(){
+        sliderApiCall()
+    }
+
     private fun sliderApiCall(){
         GlobalScope.launch {
             _sliderResponse.postValue(Resource.loading(null))

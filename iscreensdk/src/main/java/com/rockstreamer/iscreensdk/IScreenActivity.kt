@@ -1,6 +1,7 @@
 package com.rockstreamer.iscreensdk
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.util.Log
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,10 +23,12 @@ import com.rockstreamer.iscreensdk.utils.getSubscriptionInformation
 import com.rockstreamer.iscreensdk.utils.gone
 import com.rockstreamer.iscreensdk.utils.openDetailsScreen
 import com.rockstreamer.iscreensdk.utils.openSeeMoreDetails
+import com.rockstreamer.iscreensdk.utils.registerOnSharedPreferenceChangedListener
+import com.rockstreamer.iscreensdk.utils.unregisterOnSharedPreferenceChangedListener
 import kotlinx.coroutines.launch
 import java.util.Collections
 
-class IScreenActivity : BaseActivity() , onBannerCallback, OnCategoryCallback, oniScreenPremiumCallBack{
+class IScreenActivity : BaseActivity() , onBannerCallback, OnCategoryCallback, oniScreenPremiumCallBack , SharedPreferences.OnSharedPreferenceChangeListener{
 
     private lateinit var binding: IscreenActivityBinding
 
@@ -38,6 +41,12 @@ class IScreenActivity : BaseActivity() , onBannerCallback, OnCategoryCallback, o
 
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterOnSharedPreferenceChangedListener(this)
+    }
+
+
     override fun onCreateActivity() {
         binding = IscreenActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -45,6 +54,7 @@ class IScreenActivity : BaseActivity() , onBannerCallback, OnCategoryCallback, o
         binding.categoryRecycleview.layoutManager = LinearLayoutManager(this)
         binding.categoryRecycleview.adapter = categoryMainAdapterWithAds
         binding.idToolbar.toolbarTitle.text = "iScreen"
+        registerOnSharedPreferenceChangedListener(this)
 
         binding.idToolbar.toolbarBack.setOnClickListener {
             finish()
@@ -58,9 +68,9 @@ class IScreenActivity : BaseActivity() , onBannerCallback, OnCategoryCallback, o
                 Status.ERROR ->{
 
                 }
+
                 Status.INVALIDTOKEN ->{
                     callback?.onTokenInvalid()
-                    finish()
                 }
 
                 Status.SUCCESS ->{
@@ -119,8 +129,6 @@ class IScreenActivity : BaseActivity() , onBannerCallback, OnCategoryCallback, o
     }
 
     override fun onCategoryChildClickCallback(contents: Contents, type: Int) {
-
-        Log.d("APP_STATUS", "Content ${getSubscriptionInformation().subscribe}")
         if (contents.premium){
             if (getSubscriptionInformation().subscribe){
                 openDetailsScreen("${contents.id}", type)
@@ -142,6 +150,10 @@ class IScreenActivity : BaseActivity() , onBannerCallback, OnCategoryCallback, o
     }
 
     override fun onTokenInvalid() {
-        // nothing to do with
+
+    }
+
+    override fun onSharedPreferenceChanged(p0: SharedPreferences?, p1: String?) {
+        sliderViewModel.retrySliderApi()
     }
 }

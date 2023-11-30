@@ -9,7 +9,7 @@ import com.rockstreamer.iscreensdk.api.api.ApiHelper
 import com.rockstreamer.iscreensdk.api.api.ApiService
 import com.rockstreamer.iscreensdk.utils.API_TOKEN
 import com.rockstreamer.iscreensdk.utils.BASE_URL
-import com.rockstreamer.iscreensdk.utils.loginState
+
 import okhttp3.Authenticator
 import okhttp3.OkHttpClient
 import okhttp3.Request
