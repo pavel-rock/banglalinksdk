@@ -32,9 +32,9 @@ class MainActivity : AppCompatActivity() , oniScreenPremiumCallBack {
 
 
         binding.fab.setOnClickListener { view ->
-            //openiScreenSDK(this)
+            openiScreenSDK(this)
 
-            openiScreenContentFromBl(id = "5479", type = "video", this)
+            //openiScreenContentFromBl(id = "5479", type = "video", this)
         }
 
     }

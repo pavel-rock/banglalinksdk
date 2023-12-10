@@ -3,10 +3,12 @@ package com.rockstreamer.iscreensdk.activity
 import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import com.rockstreamer.iscreensdk.IScreenActivity
+import com.rockstreamer.iscreensdk.R
 import com.rockstreamer.iscreensdk.api.viewmodel.seemore.SeeMoreViewModel
 import com.rockstreamer.iscreensdk.adapter.SeeMoreVideoPagingAdapter
 import com.rockstreamer.iscreensdk.databinding.ActivitySeemoreBinding
@@ -46,6 +48,7 @@ class SeeMoreActivity : AppCompatActivity(), OnSeeMoreContentListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.statusBarColor = ContextCompat.getColor(this, R.color.iscreen_toolbar_color)
         binding = ActivitySeemoreBinding.inflate(layoutInflater)
         setContentView(binding.root)
 

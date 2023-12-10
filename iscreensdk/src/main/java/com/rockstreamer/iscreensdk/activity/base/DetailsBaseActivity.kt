@@ -14,6 +14,7 @@ import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
@@ -164,7 +165,7 @@ abstract class DetailsBaseActivity: AppCompatActivity() , Orientation.Listener, 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        window.statusBarColor = ContextCompat.getColor(this, R.color.iscreen_toolbar_color)
         alertDialog = CustomAlertDialog.showAlertDialog(this)
         playerZoomButton = AppCompatImageButton(this)
         progressDialog = ProgressDialog(this)
