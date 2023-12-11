@@ -142,7 +142,9 @@ class SeriesDetailsActivity : DetailsBaseActivity(), OnSeriesCallBack, onDeviceR
                         if (getSubscriptionInformation().subscribe){
                             showSpinner(it.data.contents)
                         }else{
-                            callback!!.onPremiumContentClick(context = this , contentId = "${it.data.seriesInfo.id}", type = SERIES_CONTENT)
+                            if (callback!=null){
+                                callback!!.onPremiumContentClick(context = this , contentId = "${it.data.seriesInfo.id}", type = "series")
+                            }
                         }
                     }else{
                         showSpinner(it.data.contents)

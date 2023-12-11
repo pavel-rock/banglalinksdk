@@ -75,14 +75,13 @@ fun Context.openSeeMoreDetails(id:String, title:String , imageType: String, cont
 fun Context.getSubscriptionInformation(): ProfileData {
     return Gson().fromJson(JWTUtils.decoded(loginState.getString(API_TOKEN , "")), ProfileData::class.java)
 }
-
-fun Context.openDetailsScreen(id:String , type:Int){
+fun Context.openDetailsScreen(id:String , type:String){
     when(type){
-        VIDEO_CONTENT ->{
+        "video" ->{
             openVideoDetailsActivityWithoutAds(id)
         }
 
-        SERIES_CONTENT ->{
+        "series" ->{
             openSeriesDetailsActivity(id)
         }
     }

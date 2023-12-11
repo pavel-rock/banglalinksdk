@@ -179,15 +179,15 @@ class CategoryMainAdapterWithoutAds(var callback: OnCategoryCallback): PagingDat
 
     private fun bindFeatureCallback( featureContent: FeatureContent){
         when(featureContent.type){
-            "video" -> callback.onFeatureContentClick(featureContent = featureContent,  VIDEO_CONTENT)
-            "series" -> callback.onFeatureContentClick(featureContent = featureContent,  SERIES_CONTENT)
+            "video" -> callback.onFeatureContentClick(featureContent = featureContent,  "video")
+            "series" -> callback.onFeatureContentClick(featureContent = featureContent,  "series")
         }
     }
 
     private fun bindSeeMore(categoryItems: CategoryItems){
         when(categoryItems.type){
-            "video" -> callback.onCategorySeeMoreCallback("${categoryItems.id}","${categoryItems.title}", VIDEO_CONTENT, imageType = categoryItems.imageOrientation!!)
-            "series" -> callback.onCategorySeeMoreCallback("${categoryItems.id}","${categoryItems.title}", SERIES_CONTENT, imageType = categoryItems.imageOrientation!!)
+            "video" -> callback.onCategorySeeMoreCallback("${categoryItems.id}","${categoryItems.title}", "video", imageType = categoryItems.imageOrientation!!)
+            "series" -> callback.onCategorySeeMoreCallback("${categoryItems.id}","${categoryItems.title}", "series", imageType = categoryItems.imageOrientation!!)
         }
     }
 
@@ -368,7 +368,7 @@ class CategoryMainAdapterWithoutAds(var callback: OnCategoryCallback): PagingDat
 
 
 
-    override fun onCategoryItemCallback(contents: Contents, type: Int) {
+    override fun onCategoryItemCallback(contents: Contents, type: String) {
         callback.onCategoryChildClickCallback(contents, type)
     }
 }

@@ -30,11 +30,11 @@ class SeeMoreVideoPagingAdapter(private val callBack: OnSeeMoreContentListener, 
 
                 verticalHolder.view.setOnClickListener {
                     if (item.type.equals("video")){
-                        callBack.onSeeMoreContentClick("${item.id}" , VIDEO_CONTENT, premium = item.premium)
+                        callBack.onSeeMoreContentClick("${item.id}" , "video", premium = item.premium)
                     } else if (item.type.equals("series")){
-                        callBack.onSeeMoreContentClick("${item.id}", SERIES_CONTENT, premium = item.premium)
+                        callBack.onSeeMoreContentClick("${item.id}", "series", premium = item.premium)
                     } else {
-                        callBack.onSeeMoreContentClick("${item.id}" , VIDEO_CONTENT, premium = item.premium)
+                        callBack.onSeeMoreContentClick("${item.id}" , "video", premium = item.premium)
                     }
                 }
             }
@@ -47,11 +47,11 @@ class SeeMoreVideoPagingAdapter(private val callBack: OnSeeMoreContentListener, 
 
                 horizontalHolder.view.setOnClickListener {
                     if (item.type.equals("video")){
-                        callBack.onSeeMoreContentClick("${item.id}" , VIDEO_CONTENT, premium = item.premium)
+                        callBack.onSeeMoreContentClick("${item.id}" , "video", premium = item.premium)
                     } else if (item.type.equals("series")){
-                        callBack.onSeeMoreContentClick("${item.id}", SERIES_CONTENT, premium = item.premium)
+                        callBack.onSeeMoreContentClick("${item.id}", "series", premium = item.premium)
                     } else {
-                        callBack.onSeeMoreContentClick("${item.id}" , VIDEO_CONTENT, premium = item.premium)
+                        callBack.onSeeMoreContentClick("${item.id}" , "video", premium = item.premium)
                     }
                 }
             }
@@ -69,7 +69,6 @@ class SeeMoreVideoPagingAdapter(private val callBack: OnSeeMoreContentListener, 
             else -> SeeMoreVideoCustomHolder(ItemSeemoreVideoBinding.inflate(LayoutInflater.from(parent.context), parent , false))
         }
     }
-
 
     object SeeMoreComparator: DiffUtil.ItemCallback<SeeMoreItems>() {
         override fun areItemsTheSame(oldItem: SeeMoreItems, newItem: SeeMoreItems): Boolean {

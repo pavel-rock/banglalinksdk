@@ -131,7 +131,7 @@ class VideoDetailsActivity : DetailsBaseActivity(), OnRecommandCallback, onDevic
                             playVideo(videoDetailsResponse!!)
                         }else{
                             if (callback !=null){
-                                callback?.onPremiumContentClick(context = this, contentId = "${videoDetailsResponse!!.id}", type = VIDEO_CONTENT )
+                                callback?.onPremiumContentClick(context = this, contentId = "${videoDetailsResponse!!.id}", type = "video" )
                             }
                         }
                     }else{

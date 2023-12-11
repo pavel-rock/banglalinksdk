@@ -97,23 +97,23 @@ class IScreenActivity : BaseActivity() , onBannerCallback, OnCategoryCallback, o
             "video" ->{
                 if (item.premium){
                     if (getSubscriptionInformation().subscribe){
-                        openDetailsScreen(item.contentId, VIDEO_CONTENT)
+                        openDetailsScreen(item.contentId, "video")
                     }else{
-                        callback?.onPremiumContentClick(context = this, contentId = "${item.contentId}", type = VIDEO_CONTENT)
+                        callback?.onPremiumContentClick(context = this, contentId = "${item.contentId}", type = "video")
                     }
                 }else{
-                    openDetailsScreen(item.contentId, VIDEO_CONTENT)
+                    openDetailsScreen(item.contentId, "video")
                 }
             }
             "series" ->{
                 if (item.premium){
                     if (getSubscriptionInformation().subscribe){
-                        openDetailsScreen(item.contentId, SERIES_CONTENT)
+                        openDetailsScreen(item.contentId, "series")
                     }else{
-                        callback?.onPremiumContentClick(context = this, contentId = "${item.contentId}", type = SERIES_CONTENT)
+                        callback?.onPremiumContentClick(context = this, contentId = "${item.contentId}", type = "series")
                     }
                 }else{
-                    openDetailsScreen(item.contentId, SERIES_CONTENT)
+                    openDetailsScreen(item.contentId, "series")
                 }
             }
         }
@@ -122,18 +122,18 @@ class IScreenActivity : BaseActivity() , onBannerCallback, OnCategoryCallback, o
     override fun onCategorySeeMoreCallback(
         id: String,
         title: String,
-        type: Int,
+        type: String,
         imageType: String
     ) {
         openSeeMoreDetails(id = id , title = title ,imageType = imageType, context = this )
     }
 
-    override fun onCategoryChildClickCallback(contents: Contents, type: Int) {
+    override fun onCategoryChildClickCallback(contents: Contents, type: String) {
         if (contents.premium){
             if (getSubscriptionInformation().subscribe){
                 openDetailsScreen("${contents.id}", type)
             }else{
-                callback?.onPremiumContentClick(context = this, contentId = "${contents.id}", type = VIDEO_CONTENT)
+                callback?.onPremiumContentClick(context = this, contentId = "${contents.id}", type =type )
             }
         }else{
             openDetailsScreen("${contents.id}", type)
@@ -141,11 +141,11 @@ class IScreenActivity : BaseActivity() , onBannerCallback, OnCategoryCallback, o
 
     }
 
-    override fun onFeatureContentClick(featureContent: FeatureContent, type: Int) {
+    override fun onFeatureContentClick(featureContent: FeatureContent, type: String) {
 
     }
 
-    override fun onPremiumContentClick(context: Context, contentId: String, type: Int) {
+    override fun onPremiumContentClick(context: Context, contentId: String, type: String) {
         callback?.onPremiumContentClick(this, contentId = contentId , type = type)
     }
 

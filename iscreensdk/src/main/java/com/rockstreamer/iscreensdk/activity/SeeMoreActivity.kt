@@ -21,6 +21,7 @@ import com.rockstreamer.iscreensdk.utils.EqualSpacingItemDecoration
 import com.rockstreamer.iscreensdk.utils.IMAGE_HORIZONTAL
 import com.rockstreamer.iscreensdk.utils.IMAGE_VERTICAL
 import com.rockstreamer.iscreensdk.utils.ITEM_SPACE
+import com.rockstreamer.iscreensdk.utils.SERIES_CONTENT
 import com.rockstreamer.iscreensdk.utils.VIDEO_CONTENT
 import com.rockstreamer.iscreensdk.utils.getSubscriptionInformation
 import com.rockstreamer.iscreensdk.utils.gone
@@ -98,7 +99,7 @@ class SeeMoreActivity : AppCompatActivity(), OnSeeMoreContentListener {
         }
     }
 
-    override fun onSeeMoreContentClick(id: String, type: Int, premium: Boolean) {
+    override fun onSeeMoreContentClick(id: String, type: String, premium: Boolean) {
         if (premium){
             if (getSubscriptionInformation().subscribe){
                 openDetailsScreen(id = id , type = type)
@@ -107,6 +108,14 @@ class SeeMoreActivity : AppCompatActivity(), OnSeeMoreContentListener {
             }
         }else{
             openDetailsScreen(id = id , type = type)
+        }
+    }
+
+    private fun getType(type:Int):String{
+       return when(type){
+            VIDEO_CONTENT ->  "video"
+            SERIES_CONTENT ->  "series"
+            else -> "video"
         }
     }
 
