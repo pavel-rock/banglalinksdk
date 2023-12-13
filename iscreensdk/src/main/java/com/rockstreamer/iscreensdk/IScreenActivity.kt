@@ -1,5 +1,6 @@
 package com.rockstreamer.iscreensdk
 
+import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
@@ -35,8 +36,15 @@ class IScreenActivity : BaseActivity() , onBannerCallback, OnCategoryCallback, o
 
     companion object{
         var callback: oniScreenPremiumCallBack?=null
+        var context: Context ?= null
         fun setInterfaceInstance(callBack: oniScreenPremiumCallBack){
             this.callback = callBack
+        }
+
+        fun stopiScreen(){
+            if (context!=null){
+                (context as Activity).finish()
+            }
         }
 
     }
@@ -49,6 +57,7 @@ class IScreenActivity : BaseActivity() , onBannerCallback, OnCategoryCallback, o
 
     override fun onCreateActivity() {
         binding = IscreenActivityBinding.inflate(layoutInflater)
+        context = this
         setContentView(binding.root)
         categoryMainAdapterWithAds = CategoryMainAdapterWithoutAds(this)
         binding.categoryRecycleview.layoutManager = LinearLayoutManager(this)
@@ -153,7 +162,8 @@ class IScreenActivity : BaseActivity() , onBannerCallback, OnCategoryCallback, o
 
     }
 
-    override fun onSharedPreferenceChanged(p0: SharedPreferences?, p1: String?) {
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, p1: String?) {
+        Log.d("APP_STATUS", "app clean")
         sliderViewModel.retrySliderApi()
     }
 }

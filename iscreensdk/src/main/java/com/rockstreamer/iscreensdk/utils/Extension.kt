@@ -220,6 +220,11 @@ fun getContentType(type:String): Int{
     }
 }
 
+fun Context.stopIScreen(){
+    IScreenActivity.stopiScreen()
+    SeeMoreActivity.stopiScreen()
+}
+
 fun Context.openiScreenSDK(callback: oniScreenPremiumCallBack){
     IScreenActivity.setInterfaceInstance(callback)
     startActivity(Intent(this, IScreenActivity::class.java))

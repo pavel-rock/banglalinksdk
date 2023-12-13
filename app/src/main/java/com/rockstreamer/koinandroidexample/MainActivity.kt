@@ -7,9 +7,11 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.rockstreamer.iscreensdk.listeners.oniScreenPremiumCallBack
+import com.rockstreamer.iscreensdk.utils.cleanIScreenSDK
 import com.rockstreamer.iscreensdk.utils.iScreenSDKInit
 import com.rockstreamer.iscreensdk.utils.openiScreenContentFromBl
 import com.rockstreamer.iscreensdk.utils.openiScreenSDK
+import com.rockstreamer.iscreensdk.utils.stopIScreen
 import com.rockstreamer.koinandroidexample.databinding.ActivityMainBinding
 
 
@@ -54,7 +56,8 @@ class MainActivity : AppCompatActivity() , oniScreenPremiumCallBack {
 //        openDetailsScreen(id = contentId, type = type)
 //        Log.d("TOKEN", "type = ${type}")
 
-        (context as Activity).finish()
+        //cleanIScreenSDK()
+        stopIScreen()
     }
 
     override fun onTokenInvalid() {

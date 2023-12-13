@@ -1,5 +1,6 @@
 package com.rockstreamer.iscreensdk.activity
 
+import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -40,17 +41,23 @@ class SeeMoreActivity : AppCompatActivity(), OnSeeMoreContentListener {
 
 
     companion object{
+        var context: Context ?= null
         private var callback: oniScreenPremiumCallBack?=null
         fun setInterfaceInstance(context: Context?){
             callback = context as oniScreenPremiumCallBack
         }
+        fun stopiScreen(){
+            if (context!=null){
+                (context as Activity).finish()
+            }
+        }
     }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.statusBarColor = ContextCompat.getColor(this, R.color.iscreen_toolbar_color)
         binding = ActivitySeemoreBinding.inflate(layoutInflater)
+        context = this
         setContentView(binding.root)
 
         var title = intent.getStringExtra(EXTRA_SEEMORE_TITLE)
@@ -110,13 +117,4 @@ class SeeMoreActivity : AppCompatActivity(), OnSeeMoreContentListener {
             openDetailsScreen(id = id , type = type)
         }
     }
-
-    private fun getType(type:Int):String{
-       return when(type){
-            VIDEO_CONTENT ->  "video"
-            SERIES_CONTENT ->  "series"
-            else -> "video"
-        }
-    }
-
 }
