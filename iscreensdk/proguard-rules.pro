@@ -31,4 +31,4 @@
 #    @com.google.gson.annotations.SerializedName <fields>;
 #  }
 
--keepclassmembers class com.rockstreamer.iscreensdk.** { <fields>; }
+#-keepclassmembers class com.rockstreamer.iscreensdk.** { <fields>; }
