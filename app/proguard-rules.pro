@@ -22,4 +22,4 @@
 
 #-keepclassmembers class com.rockstreamer.iscreensdk.** { <fields>; }
 
--keepclassmembers class com.rockstreamer.iscreensdk.pojo** { <fields>; }
+-keepclassmembers class com.rockstreamer.iscreensdk.** { <fields>; }
