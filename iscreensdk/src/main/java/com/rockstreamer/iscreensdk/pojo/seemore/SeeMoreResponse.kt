@@ -1,8 +1,8 @@
 package com.rockstreamer.iscreensdk.pojo.seemore
 
-import HorizontalThumbnails
-import VerticalThumbnails
 import com.google.gson.annotations.SerializedName
+import com.rockstreamer.iscreensdk.pojo.HorizontalThumbnails
+import com.rockstreamer.iscreensdk.pojo.VerticalThumbnails
 import com.rockstreamer.iscreensdk.pojo.others.Cast
 
 data class SeeMoreItems(

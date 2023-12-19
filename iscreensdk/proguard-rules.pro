@@ -19,3 +19,14 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+#-keep class com.rockstreamer.iscreensdk. ** {
+#    *;
+#  }
+#
+#-keepclassmembers class com.rockstreamer.iscreensdk.** { <fields>; }
+#
+#
+#-keepclassmembers,allowobfuscation class * {
+#    @com.google.gson.annotations.SerializedName <fields>;
+#  }

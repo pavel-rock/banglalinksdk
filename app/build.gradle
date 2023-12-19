@@ -20,7 +20,16 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            debuggable false
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+        debug{
+            debuggable false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -54,7 +63,7 @@ dependencies {
 
     implementation project(":iscreensdk")
 
-    //implementation ("com.github.pavel-rock:banglalinksdk:1.2.19")
+    //implementation ("com.github.pavel-rock:banglalinksdk:1.2.20")
 
     implementation ("io.insert-koin:koin-core:3.2.0")
     implementation ("io.insert-koin:koin-android:3.2.0")

@@ -15,7 +15,6 @@ class CategoryVideoCustomViewHolder(private val binding: ItemLayoutVideoBinding)
     var view = binding.root
 
     fun bind(contents: Contents){
-       // binding.content = contents
         binding.contentTitle.text = contents.title
 
         if (!contents.horizontalThumbnails.isNullOrEmpty()){
@@ -34,7 +33,6 @@ class CategoryVerticalVideoCustomViewHolder(private val binding: ItemVerticaleVi
     var view = binding.root
 
     fun bind(contents: Contents){
-        //binding.contentTitle = contents.title
         binding.contentTitle.text = contents.title
         if (contents.verticalThumbnails.isNotEmpty()){
             ImageLoader.loadMovieImage(context = view.context , url = BASE_MOVIE_POSTER+contents.verticalThumbnails[0].path , imageView = binding.videoThumbImage)

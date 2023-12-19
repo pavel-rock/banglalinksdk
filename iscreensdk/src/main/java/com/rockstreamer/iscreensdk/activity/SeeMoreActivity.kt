@@ -3,6 +3,7 @@ package com.rockstreamer.iscreensdk.activity
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
@@ -87,6 +88,7 @@ class SeeMoreActivity : AppCompatActivity(), OnSeeMoreContentListener {
         )
 
         if (seemoreId != null) {
+            Log.d("APP_STATUS", "Comes here")
             lifecycleScope.launch {
                 seeMoreViewModel.getSeeMore(seemoreId).observe(this@SeeMoreActivity){
                     it?.let {

@@ -163,7 +163,6 @@ class IScreenActivity : BaseActivity() , onBannerCallback, OnCategoryCallback, o
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, p1: String?) {
-        Log.d("APP_STATUS", "app clean")
         sliderViewModel.retrySliderApi()
     }
 }

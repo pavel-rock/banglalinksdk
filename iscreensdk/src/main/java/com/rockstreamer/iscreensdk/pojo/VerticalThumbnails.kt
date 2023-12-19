@@ -1,3 +1,6 @@
+
+package com.rockstreamer.iscreensdk.pojo
+
 import com.google.gson.annotations.SerializedName
 
 /*

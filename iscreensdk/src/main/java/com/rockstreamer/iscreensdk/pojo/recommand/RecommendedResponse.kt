@@ -1,7 +1,7 @@
 package com.rockstreamer.iscreensdk.pojo.recommand
 
-import HorizontalThumbnails
 import com.google.gson.annotations.SerializedName
+import com.rockstreamer.iscreensdk.pojo.HorizontalThumbnails
 
 data class RecommendedResponse(@SerializedName("id") val id : Int,
                                @SerializedName("title") val title : String,

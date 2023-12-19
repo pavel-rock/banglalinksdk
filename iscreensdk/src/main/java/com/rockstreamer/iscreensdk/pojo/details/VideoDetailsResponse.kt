@@ -1,8 +1,8 @@
 package com.rockstreamer.iscreensdk.pojo.details
 
-import HorizontalThumbnails
-import VerticalThumbnails
 import com.google.gson.annotations.SerializedName
+import com.rockstreamer.iscreensdk.pojo.HorizontalThumbnails
+import com.rockstreamer.iscreensdk.pojo.VerticalThumbnails
 import com.rockstreamer.iscreensdk.pojo.series.Directors
 import com.rockstreamer.iscreensdk.pojo.others.Artists
 import com.rockstreamer.iscreensdk.pojo.others.Banner
