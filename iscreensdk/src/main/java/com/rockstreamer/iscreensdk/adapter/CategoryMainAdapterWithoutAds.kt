@@ -29,14 +29,12 @@ import com.rockstreamer.iscreensdk.utils.IMAGE_URL
 import com.rockstreamer.iscreensdk.utils.ITEM_SPACE
 import com.rockstreamer.iscreensdk.utils.SERIES_CONTENT
 import com.rockstreamer.iscreensdk.utils.StartSnapHelper
-import com.rockstreamer.iscreensdk.utils.VIDEO_CONTENT
 import com.rockstreamer.iscreensdk.utils.VIDEO_CONTENT_HORIZONTAL
 import com.rockstreamer.iscreensdk.utils.VIDEO_CONTENT_VERTICAL
 import com.rockstreamer.iscreensdk.utils.bindFeaturebutton
 import com.rockstreamer.iscreensdk.utils.getMostPopulousSwatch
 import com.rockstreamer.iscreensdk.utils.gone
 import com.rockstreamer.iscreensdk.utils.show
-import com.rockstreamer.iscreensdk.utils.showGenre
 
 class CategoryMainAdapterWithoutAds(var callback: OnCategoryCallback): PagingDataAdapter<CategoryItems, RecyclerView.ViewHolder>(
     CategoryComparator
@@ -83,7 +81,7 @@ class CategoryMainAdapterWithoutAds(var callback: OnCategoryCallback): PagingDat
         holder.mainLayout.animation = AnimationUtils.loadAnimation(holder.itemView.context, R.anim.recycleview_anim)
 
         if (categoryItem.type!=null && categoryItem.contents!=null){
-            categoryChildAdapter = categoryItem.imageOrientation?.let { CategoryChildAdapter(categoryItem.contents, categoryItem.type!!, imageOrientation = it, this) }
+            categoryChildAdapter = categoryItem.imageOrientation?.let { CategoryChildAdapter(categoryItem.contents.filter { !it.tvod }, categoryItem.type!!, imageOrientation = it, this) }
             holder.setChildRecycleView(categoryChildAdapter!!)
         }
 
@@ -123,7 +121,7 @@ class CategoryMainAdapterWithoutAds(var callback: OnCategoryCallback): PagingDat
         holder.mainLayout.animation = AnimationUtils.loadAnimation(holder.itemView.context, R.anim.recycleview_anim)
 
         if (categoryItem.type!=null && categoryItem.contents!=null){
-            categoryChildAdapter = categoryItem.imageOrientation?.let { CategoryChildAdapter(categoryItem.contents, categoryItem.type!!, imageOrientation = it, this) }
+            categoryChildAdapter = categoryItem.imageOrientation?.let { CategoryChildAdapter(categoryItem.contents.filter { !it.tvod }, categoryItem.type!!, imageOrientation = it, this) }
             holder.setChildRecycleView(categoryChildAdapter!!)
         }
 

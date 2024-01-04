@@ -8,5 +8,6 @@ data class RecommendedResponse(@SerializedName("id") val id : Int,
                                @SerializedName("status") val status : String,
                                @SerializedName("type") val type : String,
                                @SerializedName("thumbnail") val thumbnail : String,
+                               @SerializedName("tvod") val tvod: Boolean,
                                @SerializedName("horizontalThumbnails") val horizontalThumbnails : List<HorizontalThumbnails>,
                                @SerializedName("premium") val premium : Boolean)

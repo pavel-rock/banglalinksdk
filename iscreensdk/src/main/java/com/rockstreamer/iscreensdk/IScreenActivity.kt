@@ -85,6 +85,7 @@ class IScreenActivity : BaseActivity() , onBannerCallback, OnCategoryCallback, o
                 Status.SUCCESS ->{
                     Collections.sort(it.data, SortByBannerPosition())
                     binding.viewPager.adapter = it.data?.let { it1 ->
+
                         SliderAdapter(this ,
                             it1, this)
                     }

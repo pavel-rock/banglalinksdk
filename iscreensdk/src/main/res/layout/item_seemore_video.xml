@@ -42,6 +42,7 @@
         android:layout_below="@id/video_thumb"
         android:layout_centerInParent="true"
         android:gravity="center"
+        android:visibility="gone"
         android:layout_marginTop="@dimen/_3sdp"
         android:textSize="@dimen/category_title_size"
         android:textColor="@color/black"

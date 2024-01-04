@@ -8,6 +8,7 @@ open class SliderResponse (
     @SerializedName("active") val active : Boolean,
     @SerializedName("contentId") val contentId: String,
     @SerializedName("premium") val premium: Boolean,
+    @SerializedName("tvod") val tvod: Boolean,
     @SerializedName("position") val position : Int,
     @SerializedName("description") val description:String,
     @SerializedName("title") val title:String,

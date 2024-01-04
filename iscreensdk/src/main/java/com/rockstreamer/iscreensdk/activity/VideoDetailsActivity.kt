@@ -72,6 +72,11 @@ class VideoDetailsActivity : DetailsBaseActivity(), OnRecommandCallback, onDevic
             WindowManager.LayoutParams.FLAG_FULLSCREEN
         )
         this.window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_SECURE,
+            WindowManager.LayoutParams.FLAG_SECURE,
+        )
+
         _binding = ActivityVideoDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setExoPlayer(binding.videoView, findViewById(R.id.exo_loading), findViewById(R.id.next), findViewById(R.id.previous))

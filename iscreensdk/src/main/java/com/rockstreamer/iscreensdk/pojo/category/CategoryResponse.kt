@@ -28,6 +28,7 @@ data class Contents(
     @SerializedName("type") val type: String?,
     @SerializedName("status") val status: String?,
     @SerializedName("premium") val premium: Boolean,
+    @SerializedName("tvod") val tvod: Boolean,
     @SerializedName("thumbnail") val imageUrl: String?,
     @SerializedName("horizontalThumbnails") val horizontalThumbnails : List<HorizontalThumbnails>,
     @SerializedName("verticalThumbnails") val verticalThumbnails : List<VerticalThumbnails>,

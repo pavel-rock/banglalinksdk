@@ -30,7 +30,7 @@ class SliderViewModel(private val contentRepository: ContentRepository, private 
             if (networkHelper.isNetworkConnected()){
                 contentRepository.getSlider(token = "${loginState.getString(API_TOKEN , "")}","web").let {
                     if (it.isSuccessful){
-                        _sliderResponse.postValue(Resource.success(it.body()))
+                        _sliderResponse.postValue(Resource.success(it.body()?.filter { !it.tvod }) as Resource<ArrayList<SliderResponse>>?)
                     }else {
                         _sliderResponse.postValue(Resource.invalidToken(null))
                     }

@@ -13,9 +13,8 @@ import com.rockstreamer.iscreensdk.utils.IMAGE_HORIZONTAL
 import com.rockstreamer.iscreensdk.utils.IMAGE_VERTICAL
 import com.rockstreamer.iscreensdk.utils.SERIES_CONTENT
 import com.rockstreamer.iscreensdk.utils.VIDEO_CONTENT
-import com.rockstreamer.iscreensdk.utils.getContentType
 
-class CategoryChildAdapter(var contentItems : ArrayList<Contents>, var type:String, var imageOrientation:String, var callback : OnCategoryChildCallback) :RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class CategoryChildAdapter(var contentItems: List<Contents>, var type:String, var imageOrientation:String, var callback: OnCategoryChildCallback) :RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun getItemViewType(position: Int): Int {
         return when {

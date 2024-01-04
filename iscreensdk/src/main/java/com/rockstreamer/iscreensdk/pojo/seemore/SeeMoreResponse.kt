@@ -15,6 +15,7 @@ data class SeeMoreItems(
     @SerializedName("type") val type: String?,
     @SerializedName("status") val status: String?,
     @SerializedName("path") val path: String?,
+    @SerializedName("tvod") val tvod: Boolean,
     @SerializedName("casts") val casts: List<Cast>?,
     @SerializedName("viewCount") val viewCount: Int,
     @SerializedName("horizontalThumbnails") val horizontalThumbnails : List<HorizontalThumbnails>,
