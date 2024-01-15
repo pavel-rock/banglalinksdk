@@ -223,6 +223,8 @@ fun getContentType(type:String): Int{
 fun Context.stopIScreen(){
     IScreenActivity.stopiScreen()
     SeeMoreActivity.stopiScreen()
+    VideoDetailsActivity.stopiScreen()
+    SeriesDetailsActivity.stopiScreen()
 }
 
 fun Context.openiScreenSDK(callback: oniScreenPremiumCallBack){

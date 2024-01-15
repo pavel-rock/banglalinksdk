@@ -1,6 +1,8 @@
 package com.rockstreamer.iscreensdk.activity
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Context
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
@@ -11,6 +13,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.rockstreamer.iscreensdk.IScreenActivity
 import com.rockstreamer.iscreensdk.api.Status
 import com.rockstreamer.iscreensdk.R
 import com.rockstreamer.iscreensdk.activity.base.DetailsBaseActivity
@@ -53,8 +56,15 @@ class VideoDetailsActivity : DetailsBaseActivity(), OnRecommandCallback, onDevic
 
     companion object{
         var callback: oniScreenPremiumCallBack?=null
+        var context: Context?= null
         fun setInterfaceInstance(callBack: oniScreenPremiumCallBack){
             this.callback = callBack
+        }
+
+        fun stopiScreen(){
+            if (context !=null){
+                (context as Activity).finish()
+            }
         }
 
     }
@@ -65,7 +75,7 @@ class VideoDetailsActivity : DetailsBaseActivity(), OnRecommandCallback, onDevic
     }
 
     override fun onCreateDetailsView(savedInstanceState: Bundle?) {
-
+        context = this
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         window.setFlags(
             WindowManager.LayoutParams.FLAG_FULLSCREEN,
