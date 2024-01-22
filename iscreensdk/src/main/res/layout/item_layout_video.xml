@@ -36,15 +36,15 @@
         </com.google.android.material.card.MaterialCardView>
 
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/content_title"
-            android:layout_below="@id/video_thumb"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:layout_marginTop="@dimen/_3sdp"
-            android:textSize="@dimen/category_title_size"
-            android:textColor="@color/black"
-            android:layout_width="@dimen/video_image_width"
-            android:layout_height="wrap_content" />
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/content_title"
+        android:layout_width="@dimen/video_image_width"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/video_thumb"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="@dimen/_3sdp"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textSize="@dimen/category_title_size" />
 
     </RelativeLayout>

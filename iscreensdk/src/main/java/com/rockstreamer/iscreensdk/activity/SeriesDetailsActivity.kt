@@ -111,6 +111,14 @@ class SeriesDetailsActivity : DetailsBaseActivity(), OnSeriesCallBack, onDeviceR
 
         }
 
+        findViewById<ImageView>(R.id.exo_ffwd).setOnClickListener {
+            corePlayer.seekTo(corePlayer.currentPosition+5000)
+        }
+
+        findViewById<ImageView>(R.id.exo_rew).setOnClickListener {
+            corePlayer.seekTo(corePlayer.currentPosition-5000)
+        }
+
         var argument = intent.getStringExtra(SERIES_ID_PASS)
         if (argument != null) {
             argumentId = argument

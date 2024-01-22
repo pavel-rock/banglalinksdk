@@ -194,6 +194,14 @@ class VideoDetailsActivity : DetailsBaseActivity(), OnRecommandCallback, onDevic
         findViewById<ImageView>(R.id.image_back_arrow).setOnClickListener {
             onBackArrowPressed()
         }
+
+        findViewById<ImageView>(R.id.exo_ffwd).setOnClickListener {
+            corePlayer.seekTo(corePlayer.currentPosition+5000)
+        }
+
+        findViewById<ImageView>(R.id.exo_rew).setOnClickListener {
+            corePlayer.seekTo(corePlayer.currentPosition-5000)
+        }
     }
 
     private fun onBackArrowPressed(){

@@ -48,7 +48,7 @@
 
     <dimen name="audio_image_width">@dimen/_105sdp</dimen>
     <dimen name="audio_image_height">@dimen/_105sdp</dimen>
-    <dimen name="category_title_size">@dimen/_13sdp</dimen>
+    <dimen name="category_title_size">@dimen/_12sdp</dimen>
 
     <!-- toolbar -->
     <dimen name="tool_bar_title_size">@dimen/_15sdp</dimen>

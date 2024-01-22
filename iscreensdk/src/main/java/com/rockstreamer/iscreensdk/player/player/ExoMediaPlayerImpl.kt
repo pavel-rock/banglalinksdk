@@ -119,11 +119,14 @@ class ExoMediaPlayerImpl(private val config: PlayerConfig, private val playerVie
         ).build().also {
             it.addListener(this)
             playerView.player = it
+
             adsLoader!!.setPlayer(it)
         }
     }
 
 
+//        .setSeekBackIncrementMs(10000)
+//        .setSeekForwardIncrementMs(10000)
     override val playing: Boolean get() = exoPlayer.isPlaying
     override val duration: Long get() = exoPlayer.duration
     override val currentPosition: Long get() = exoPlayer.currentPosition
