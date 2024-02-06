@@ -40,7 +40,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/home_recycler_view_horizontal"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_140sdp"
+            android:layout_height="@dimen/_137sdp"
             android:layout_below="@id/text_more"
             android:clipToPadding="false"
             android:orientation="horizontal"
