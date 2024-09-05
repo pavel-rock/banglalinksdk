@@ -1,8 +1,14 @@
 pluginManagement {
     repositories {
-        gradlePluginPortal()
-        google()
+        google {
+            content {
+                includeGroupByRegex("com\\.android.*")
+                includeGroupByRegex("com\\.google.*")
+                includeGroupByRegex("androidx.*")
+            }
+        }
         mavenCentral()
+        gradlePluginPortal()
     }
 }
 dependencyResolutionManagement {
@@ -16,6 +22,7 @@ dependencyResolutionManagement {
         }
     }
 }
-rootProject.name = "banglalinksdk"
+
+rootProject.name = "iscreenblsdk"
 include ':app'
 include ':iscreensdk'

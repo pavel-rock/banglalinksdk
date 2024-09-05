@@ -5,6 +5,7 @@ import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.analytics.AnalyticsCollector
+import com.google.android.exoplayer2.analytics.DefaultAnalyticsCollector
 import com.google.android.exoplayer2.source.DefaultMediaSourceFactory
 import com.google.android.exoplayer2.source.MediaSourceFactory
 import com.google.android.exoplayer2.source.TrackGroupArray
@@ -67,7 +68,7 @@ class ExoMediaPlayerImpl(private val config: PlayerConfig, private val playerVie
             config.trackManager.selector,
             config.loadControl,
             config.bandwidthMeter,
-            AnalyticsCollector(Clock.DEFAULT)
+            DefaultAnalyticsCollector(Clock.DEFAULT)
         ).build().also {
             it.addListener(this)
             playerView.player = it

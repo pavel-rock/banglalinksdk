@@ -2,39 +2,39 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
 
-<uses-permission android:name="android.permission.INTERNET" />
-<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
 
-<application
-    android:allowBackup="true"
-    android:label="@string/app_name"
-    android:supportsRtl="true"
-    android:theme="@style/Theme.BanglalinkSDK">
+    <application
+        android:allowBackup="true"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.BanglalinkSDK">
 
-    <activity
-        android:name=".IScreenActivity"
-        android:exported="true"/>
+        <activity
+            android:name=".IScreenActivity"
+            android:exported="true"/>
 
-    <activity
-        android:name=".activity.VideoDetailsActivity"
-        android:theme="@style/Theme.BanglalinkSDK.NoActionBar"
-        android:configChanges="orientation|screenSize|layoutDirection"
-        android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
-        android:exported="true"/>
+        <activity
+            android:name=".activity.VideoDetailsActivity"
+            android:theme="@style/Theme.BanglalinkSDK.NoActionBar"
+            android:configChanges="orientation|screenSize|layoutDirection"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
+            android:exported="true"/>
 
-    <activity
-        android:name=".activity.SeriesDetailsActivity"
-        android:theme="@style/Theme.BanglalinkSDK.NoActionBar"
-        android:configChanges="orientation|screenSize|layoutDirection"
-        android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
-        android:exported="true"/>
+        <activity
+            android:name=".activity.SeriesDetailsActivity"
+            android:theme="@style/Theme.BanglalinkSDK.NoActionBar"
+            android:configChanges="orientation|screenSize|layoutDirection"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
+            android:exported="true"/>
 
 
-    <activity
-        android:name=".activity.SeeMoreActivity"
-        android:exported="true"/>
+        <activity
+            android:name=".activity.SeeMoreActivity"
+            android:exported="true"/>
 
-</application>
+    </application>
 
 </manifest>

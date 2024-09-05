@@ -6,18 +6,19 @@ plugins {
     id 'maven-publish'
 }
 
-def exoPlayerVersion = '2.16.1'
+def exoPlayerVersion = '2.19.1'
 
 group = 'com.rockstreamer.iscreensdk'
 version = '1.3.5'
 
+
 android {
     namespace 'com.rockstreamer.iscreensdk'
-    compileSdk 32
+    compileSdk 34
 
     defaultConfig {
-        minSdk 21
-        targetSdk 32
+        minSdk 24
+        targetSdk 34
         versionCode 1
         versionName "1.0"
         vectorDrawables.useSupportLibrary = true
@@ -27,8 +28,6 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            shrinkResources false
-            debuggable false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -41,23 +40,21 @@ android {
     }
     buildFeatures {
         viewBinding true
-        dataBinding true
     }
-//    java {
-//        toolchain {
-//            languageVersion = JavaLanguageVersion.of(17)        // << --- ADD This
-//        }
-//    }
 }
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.3.2'
-    implementation 'androidx.appcompat:appcompat:1.4.0'
-    implementation 'com.google.android.material:material:1.4.0'
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    implementation libs.androidx.core.ktx
+    implementation libs.androidx.appcompat
+    implementation libs.material
+    implementation libs.androidx.constraintlayout
+    implementation libs.androidx.navigation.fragment.ktx
+    implementation libs.androidx.navigation.ui.ktx
+    testImplementation libs.junit
+    androidTestImplementation libs.androidx.junit
+    androidTestImplementation libs.androidx.espresso.core
+
 
     def koin_version = '3.2.0'
     implementation "io.insert-koin:koin-core:$koin_version"
@@ -94,8 +91,6 @@ dependencies {
     implementation "com.google.android.exoplayer:extension-okhttp:$exoPlayerVersion" // Custom HTTP
     implementation 'com.google.ads.interactivemedia.v3:interactivemedia:3.28.1'
 }
-
-
 afterEvaluate {
     publishing {
         publications {
@@ -107,7 +102,7 @@ afterEvaluate {
                 // You can then customize attributes of the publication as shown below.
                 groupId = 'com.rockstreamer.iscreensdk'
                 artifactId = 'banglalinksdk'
-                version = '1.3.5'
+                version = '1.3.7'
             }
         }
     }
