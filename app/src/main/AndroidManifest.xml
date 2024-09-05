@@ -14,6 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.KoinAndroidExample"
         tools:replace="android:theme,android:icon">
+
         <activity
             android:name=".MainActivity2"
             android:exported="false" />

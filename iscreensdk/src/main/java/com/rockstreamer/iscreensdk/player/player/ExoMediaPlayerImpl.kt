@@ -1,14 +1,10 @@
 package com.rockstreamer.iscreensdk.player.player
 
 import android.net.Uri
-import com.google.ads.interactivemedia.v3.api.player.AdMediaInfo
-import com.google.ads.interactivemedia.v3.api.player.VideoAdPlayer
-import com.google.ads.interactivemedia.v3.api.player.VideoProgressUpdate
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.analytics.AnalyticsCollector
-import com.google.android.exoplayer2.ext.ima.ImaAdsLoader
 import com.google.android.exoplayer2.source.DefaultMediaSourceFactory
 import com.google.android.exoplayer2.source.MediaSourceFactory
 import com.google.android.exoplayer2.source.TrackGroupArray
@@ -25,7 +21,7 @@ import com.rockstreamer.videoplayer.listeners.ExoMediaPlayer
 import com.rockstreamer.videoplayer.renderer.RendererType
 class ExoMediaPlayerImpl(private val config: PlayerConfig, private val playerView: PlayerView): Player.Listener,ExoMediaPlayer {
 
-    private var adsLoader: ImaAdsLoader? = null
+
     private var mediaItem: MediaItem?=null
     private var mediaSourceFactory: MediaSourceFactory?=null
     private var exoPlayerEventListeners: ExoPlayerEventListeners?=null
@@ -61,51 +57,7 @@ class ExoMediaPlayerImpl(private val config: PlayerConfig, private val playerVie
         val dataSourceFactory: DataSource.Factory = DefaultHttpDataSource.Factory().apply {
             setDefaultRequestProperties(getHeaders())
         }
-
-            adsLoader = ImaAdsLoader.Builder(config.context).setAdEventListener {}.setVideoAdPlayerCallback(object : VideoAdPlayer.VideoAdPlayerCallback{
-                override fun onAdProgress(p0: AdMediaInfo?, p1: VideoProgressUpdate?) {
-
-                }
-
-                override fun onBuffering(p0: AdMediaInfo?) {
-
-                }
-
-                override fun onContentComplete() {
-                    exoPlayerEventListeners?.onImaAdsShow(value = false)
-                }
-
-                override fun onEnded(p0: AdMediaInfo?) {
-                    exoPlayerEventListeners?.onImaAdsShow(value = false)
-                }
-
-                override fun onError(p0: AdMediaInfo?) {
-                    exoPlayerEventListeners?.onImaAdsShow(value = false)
-                }
-
-                override fun onLoaded(p0: AdMediaInfo?) {
-
-                }
-
-                override fun onPause(p0: AdMediaInfo?) {
-
-                }
-
-                override fun onPlay(p0: AdMediaInfo?) {
-                    exoPlayerEventListeners?.onImaAdsShow(value = true)
-                }
-
-                override fun onResume(p0: AdMediaInfo?) {
-
-                }
-
-                override fun onVolumeChanged(p0: AdMediaInfo?, p1: Int) {
-
-                }
-
-            }).build()
-            mediaSourceFactory = DefaultMediaSourceFactory(dataSourceFactory).setAdsLoaderProvider(
-                DefaultMediaSourceFactory.AdsLoaderProvider { adsLoader }).setAdViewProvider(playerView)
+        mediaSourceFactory = DefaultMediaSourceFactory(dataSourceFactory)
 
         config.trackManager.getSelector()
         ExoPlayer.Builder(
@@ -119,8 +71,6 @@ class ExoMediaPlayerImpl(private val config: PlayerConfig, private val playerVie
         ).build().also {
             it.addListener(this)
             playerView.player = it
-
-            adsLoader!!.setPlayer(it)
         }
     }
 

@@ -24,7 +24,7 @@
                 android:layout_marginBottom="@dimen/_5sdp"
                 android:textAllCaps="true"
                 android:textColor="@color/black"
-                android:textSize="@dimen/_15sdp" />
+                android:textSize="@dimen/seemore_text_size" />
 
             <ImageView
                 android:id="@+id/more_image"

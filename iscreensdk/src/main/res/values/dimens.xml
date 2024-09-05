@@ -31,6 +31,8 @@
     <dimen name="login_button_height">@dimen/_35sdp</dimen>
     <dimen name="login_button_width">@dimen/_287sdp</dimen>
 
+    <dimen name="seemore_text_size">@dimen/_13sdp</dimen>
+
 
     <dimen name="list_item_image_icon_padding">8dp</dimen>
 

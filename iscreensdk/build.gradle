@@ -87,7 +87,6 @@ dependencies {
     api "com.google.android.exoplayer:exoplayer-dash:$exoPlayerVersion"
     api "com.google.android.exoplayer:exoplayer-hls:$exoPlayerVersion"
     api "com.google.android.exoplayer:exoplayer-smoothstreaming:$exoPlayerVersion"
-    api "com.google.android.exoplayer:extension-ima:$exoPlayerVersion"
     api "com.google.android.exoplayer:extension-mediasession:$exoPlayerVersion"
     api "com.google.android.exoplayer:extension-cronet:$exoPlayerVersion"
     // ExoPlayer
