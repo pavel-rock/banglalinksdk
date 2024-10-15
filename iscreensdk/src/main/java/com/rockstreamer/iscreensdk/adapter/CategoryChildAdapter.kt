@@ -66,13 +66,13 @@ class CategoryChildAdapter(var contentItems: List<Contents>, var type:String, va
                    val videoHolder = holder as CategoryVideoCustomViewHolder
                    videoHolder.bind(contents)
                    videoHolder.view.setOnClickListener {
-                       callback.onCategoryItemCallback(contents , "video")
+                       callback.onCategoryItemCallback(contents)
                    }
                }else{
                    val videoHolder = holder as CategoryVerticalVideoCustomViewHolder
                    videoHolder.bind(contents)
                    videoHolder.view.setOnClickListener {
-                       callback.onCategoryItemCallback(contents , "video")
+                       callback.onCategoryItemCallback(contents)
                    }
                }
             }
@@ -81,13 +81,13 @@ class CategoryChildAdapter(var contentItems: List<Contents>, var type:String, va
                     val videoHolder = holder as CategoryVideoCustomViewHolder
                     videoHolder.bind(contents)
                     videoHolder.view.setOnClickListener {
-                        callback.onCategoryItemCallback(contents , "series")
+                        callback.onCategoryItemCallback(contents)
                     }
                 }else{
                     val videoHolder = holder as CategoryVerticalVideoCustomViewHolder
                     videoHolder.bind(contents)
                     videoHolder.view.setOnClickListener {
-                        callback.onCategoryItemCallback(contents , "series")
+                        callback.onCategoryItemCallback(contents)
                     }
                 }
             }

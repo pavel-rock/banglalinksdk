@@ -75,14 +75,20 @@ fun Context.openSeeMoreDetails(id:String, title:String , imageType: String, cont
 fun Context.getSubscriptionInformation(): ProfileData {
     return Gson().fromJson(JWTUtils.decoded(loginState.getString(API_TOKEN , "")), ProfileData::class.java)
 }
-fun Context.openDetailsScreen(id:String , type:String){
+fun Context.openDetailsScreen(id:String , type:String, callback: oniScreenPremiumCallBack){
     when(type){
         "video" ->{
-            openVideoDetailsActivityWithoutAds(id)
+            val intent = Intent(this, VideoDetailsActivity::class.java)
+            intent.putExtra(VIDEO_ID_PASS, "" + id)
+            VideoDetailsActivity.setInterfaceInstance(callback)
+            startActivity(intent)
         }
 
         "series" ->{
-            openSeriesDetailsActivity(id)
+            val intent = Intent(this, SeriesDetailsActivity::class.java)
+            intent.putExtra(SERIES_ID_PASS, "" + id)
+            SeriesDetailsActivity.setInterfaceInstance(callback)
+            startActivity(intent)
         }
     }
 }

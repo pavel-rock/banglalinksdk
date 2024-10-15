@@ -177,8 +177,8 @@ class CategoryMainAdapterWithoutAds(var callback: OnCategoryCallback): PagingDat
 
     private fun bindFeatureCallback( featureContent: FeatureContent){
         when(featureContent.type){
-            "video" -> callback.onFeatureContentClick(featureContent = featureContent,  "video")
-            "series" -> callback.onFeatureContentClick(featureContent = featureContent,  "series")
+            "video" -> callback.onFeatureContentClick(featureContent = featureContent)
+            "series" -> callback.onFeatureContentClick(featureContent = featureContent)
         }
     }
 
@@ -366,7 +366,7 @@ class CategoryMainAdapterWithoutAds(var callback: OnCategoryCallback): PagingDat
 
 
 
-    override fun onCategoryItemCallback(contents: Contents, type: String) {
-        callback.onCategoryChildClickCallback(contents, type)
+    override fun onCategoryItemCallback(contents: Contents) {
+        callback.onCategoryChildClickCallback(contents)
     }
 }

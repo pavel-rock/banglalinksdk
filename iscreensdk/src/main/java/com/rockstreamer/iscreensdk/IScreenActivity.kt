@@ -107,23 +107,23 @@ class IScreenActivity : BaseActivity() , onBannerCallback, OnCategoryCallback, o
             "video" ->{
                 if (item.premium){
                     if (getSubscriptionInformation().subscribe){
-                        openDetailsScreen(item.contentId, "video")
+                        openDetailsScreen(item.contentId, "video", this)
                     }else{
                         callback?.onPremiumContentClick(context = this, contentId = "${item.contentId}", type = "video")
                     }
                 }else{
-                    openDetailsScreen(item.contentId, "video")
+                    openDetailsScreen(item.contentId, "video", this)
                 }
             }
             "series" ->{
                 if (item.premium){
                     if (getSubscriptionInformation().subscribe){
-                        openDetailsScreen(item.contentId, "series")
+                        openDetailsScreen(item.contentId, "series", this)
                     }else{
                         callback?.onPremiumContentClick(context = this, contentId = "${item.contentId}", type = "series")
                     }
                 }else{
-                    openDetailsScreen(item.contentId, "series")
+                    openDetailsScreen(item.contentId, "series", this)
                 }
             }
         }
@@ -138,20 +138,21 @@ class IScreenActivity : BaseActivity() , onBannerCallback, OnCategoryCallback, o
         openSeeMoreDetails(id = id , title = title ,imageType = imageType, context = this )
     }
 
-    override fun onCategoryChildClickCallback(contents: Contents, type: String) {
+    override fun onCategoryChildClickCallback(contents: Contents) {
         if (contents.premium){
             if (getSubscriptionInformation().subscribe){
-                openDetailsScreen("${contents.id}", type)
+                openDetailsScreen("${contents.id}", type = "${contents.type}", this)
             }else{
-                callback?.onPremiumContentClick(context = this, contentId = "${contents.id}", type =type )
+                callback?.onPremiumContentClick(context = this, contentId = "${contents.id}", type = "${contents.type}" )
             }
         }else{
-            openDetailsScreen("${contents.id}", type)
+            openDetailsScreen("${contents.id}", type = "${contents.type}", this)
+            //Log.d("APP_STATUS", "${contents.type} : ${contents.id}")
         }
 
     }
 
-    override fun onFeatureContentClick(featureContent: FeatureContent, type: String) {
+    override fun onFeatureContentClick(featureContent: FeatureContent) {
 
     }
 

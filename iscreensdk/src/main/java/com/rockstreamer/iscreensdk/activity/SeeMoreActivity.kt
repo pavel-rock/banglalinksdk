@@ -32,14 +32,13 @@ import com.rockstreamer.iscreensdk.utils.show
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
-class SeeMoreActivity : AppCompatActivity(), OnSeeMoreContentListener {
+class SeeMoreActivity : AppCompatActivity(), OnSeeMoreContentListener, oniScreenPremiumCallBack {
 
 
     private val seeMoreViewModel : SeeMoreViewModel by inject()
     lateinit var seeMoreVideoAdapter: SeeMoreVideoPagingAdapter
 
     lateinit var binding: ActivitySeemoreBinding
-
 
     companion object{
         var context: Context ?= null
@@ -111,12 +110,20 @@ class SeeMoreActivity : AppCompatActivity(), OnSeeMoreContentListener {
     override fun onSeeMoreContentClick(id: String, type: String, premium: Boolean) {
         if (premium){
             if (getSubscriptionInformation().subscribe){
-                openDetailsScreen(id = id , type = type)
+                openDetailsScreen(id = id , type = type, this)
             }else{
                 IScreenActivity.callback?.onPremiumContentClick(context = this, contentId = "$id", type = type)
             }
         }else{
-            openDetailsScreen(id = id , type = type)
+            openDetailsScreen(id = id , type = type, this)
         }
+    }
+
+    override fun onPremiumContentClick(context: Context, contentId: String, type: String) {
+        callback?.onPremiumContentClick(context , contentId = contentId , type = type)
+    }
+
+    override fun onTokenInvalid() {
+
     }
 }

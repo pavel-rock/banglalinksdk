@@ -18,7 +18,7 @@ import com.rockstreamer.iscreensdk.utils.openiScreenSDK
  */
 
 
-class FirstFragment : Fragment(), oniScreenPremiumCallBack , {
+class FirstFragment : Fragment(), oniScreenPremiumCallBack {
 
     private var _binding: FragmentFirstBinding? = null
 
@@ -35,7 +35,8 @@ class FirstFragment : Fragment(), oniScreenPremiumCallBack , {
         _binding = FragmentFirstBinding.inflate(inflater, container, false)
 
         binding.buttonOpenContent.setOnClickListener {
-            requireActivity().openiScreenContentFromBl(id = "6077", type = "series", this)
+            //requireActivity().openiScreenContentFromBl(id = "6077", type = "series", this)
+            requireActivity().openiScreenSDK(this)
         }
         return binding.root
 

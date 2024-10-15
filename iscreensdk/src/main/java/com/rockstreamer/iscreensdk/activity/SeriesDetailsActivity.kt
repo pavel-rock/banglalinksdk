@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
@@ -22,6 +23,7 @@ import com.rockstreamer.iscreensdk.activity.base.onDeviceRotation
 import com.rockstreamer.iscreensdk.adapter.SeriesAdapter
 import com.rockstreamer.iscreensdk.databinding.SeriesDetailsActivityBinding
 import com.rockstreamer.iscreensdk.listeners.OnSeriesCallBack
+import com.rockstreamer.iscreensdk.listeners.OnSeriesDetailsListeners
 import com.rockstreamer.iscreensdk.listeners.oniScreenPremiumCallBack
 import com.rockstreamer.iscreensdk.pojo.others.Genres
 import com.rockstreamer.iscreensdk.pojo.series.EpisodeItem
@@ -38,23 +40,18 @@ import com.rockstreamer.iscreensdk.utils.registerOnSharedPreferenceChangedListen
 import com.rockstreamer.iscreensdk.utils.show
 import com.rockstreamer.iscreensdk.utils.unregisterOnSharedPreferenceChangedListener
 
-class SeriesDetailsActivity : DetailsBaseActivity(), OnSeriesCallBack, onDeviceRotation, SharedPreferences.OnSharedPreferenceChangeListener{
+class SeriesDetailsActivity : DetailsBaseActivity(), OnSeriesCallBack, onDeviceRotation, SharedPreferences.OnSharedPreferenceChangeListener, OnSeriesDetailsListeners{
 
     private var _binding : SeriesDetailsActivityBinding?=null
     private val binding get() = _binding!!
 
-    lateinit var seriesAdapter: SeriesAdapter
+    private lateinit var seriesAdapter: SeriesAdapter
     private lateinit var seriesInfo: SeriesInfo
-    private lateinit var globalSeasonContent: SeasonContent
-    lateinit var globalEpisodeItem: EpisodeItem
-    var episodeId: Int ?= null
-    var seriesContentList: MutableList<EpisodeItem> = arrayListOf()
-    var seriesIndex = 0
-
-    private var isTrailerPlaying = false
-    private var contentID:String?=null
+    private var seriesContentList: MutableList<EpisodeItem> = arrayListOf()
+    private var seriesIndex = 0
     lateinit var argumentId : String
     private var isSubscribed = getSubscriptionInformation().subscribe
+
     override fun onStartDetails() {
 
 
@@ -67,7 +64,7 @@ class SeriesDetailsActivity : DetailsBaseActivity(), OnSeriesCallBack, onDeviceR
     override fun onDestroyDetails() {
 
     }
-    lateinit var contentTitle: TextView
+    private lateinit var contentTitle: TextView
 
     companion object{
         var callback: oniScreenPremiumCallBack?=null
@@ -99,22 +96,19 @@ class SeriesDetailsActivity : DetailsBaseActivity(), OnSeriesCallBack, onDeviceR
         _binding = SeriesDetailsActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setOnDeviceRotationListener(this)
-
         setExoPlayer(binding.videoView, findViewById(R.id.exo_loading), nextButton = findViewById(R.id.next), previousButton= findViewById(R.id.previous))
+        setDetailsListeners(this)
         showNextPreviousController(value = true)
         contentTitle = findViewById(R.id.content_title)
         setupController(findViewById<LinearLayout>(R.id.linear_control))
         registerOnSharedPreferenceChangedListener(this)
-        binding.premiumButton.setOnClickListener {
-
-        }
 
         findViewById<ImageView>(R.id.exo_ffwd).setOnClickListener {
-            corePlayer.seekTo(corePlayer.currentPosition+5000)
+            onSeriesDetailsListeners.onSeekForward(5000)
         }
 
         findViewById<ImageView>(R.id.exo_rew).setOnClickListener {
-            corePlayer.seekTo(corePlayer.currentPosition-5000)
+            onSeriesDetailsListeners.onSeekBackward(5000)
         }
 
         var argument = intent.getStringExtra(SERIES_ID_PASS)
@@ -178,17 +172,6 @@ class SeriesDetailsActivity : DetailsBaseActivity(), OnSeriesCallBack, onDeviceR
         findViewById<ImageView>(R.id.image_back_arrow).setOnClickListener {
             onBackArrowPressed()
         }
-
-        binding.layoutTrailer.setOnClickListener {
-            isTrailerPlaying = true
-            showNextPreviousController(value = false)
-            globalSeasonContent?.let {
-                if (!it.trailerPath.isNullOrEmpty()){
-                    playContent("${it.trailerPath}")
-                    contentTitle.text = "${it.title} Trailer"
-                }
-            }
-        }
     }
 
     override fun onDestroy() {
@@ -213,7 +196,7 @@ class SeriesDetailsActivity : DetailsBaseActivity(), OnSeriesCallBack, onDeviceR
     override fun onPreviousClick() {
         if (seriesIndex > 0){
             seriesIndex-=1
-            playVideo(seriesContentList[seriesIndex])
+            onSeriesDetailsListeners.onPremiumEpisodeDecide(seriesContentList[seriesIndex])
         }
     }
 
@@ -221,7 +204,7 @@ class SeriesDetailsActivity : DetailsBaseActivity(), OnSeriesCallBack, onDeviceR
     private fun nextSeries(){
         if (seriesIndex < seriesContentList.size-1){
             seriesIndex+=1
-            playVideo(seriesContentList[seriesIndex])
+            onSeriesDetailsListeners.onPremiumEpisodeDecide(seriesContentList[seriesIndex])
         }
     }
 
@@ -232,13 +215,6 @@ class SeriesDetailsActivity : DetailsBaseActivity(), OnSeriesCallBack, onDeviceR
         for (item in seasonList){
             seriesTitleList.add(item.title)
         }
-        globalSeasonContent = seasonList[0]
-        globalEpisodeItem = seasonList[0].contents[0]
-        playVideo(globalEpisodeItem)
-
-        episodeId = globalEpisodeItem.id
-        seriesContentList.clear()
-
         for (item in seasonList[0].contents){
             seriesContentList.add(item)
         }
@@ -256,40 +232,14 @@ class SeriesDetailsActivity : DetailsBaseActivity(), OnSeriesCallBack, onDeviceR
                 position: Int,
                 id: Long
             ) {
-                seriesAdapter.clearList()
-                seriesContentList.clear()
-                for (item in seasonList[position].contents) {
-                    seriesContentList.add(item)
-                }
-                seriesAdapter.addAll(seasonList[position].contents as ArrayList<EpisodeItem> /* = java.util.ArrayList<com.pojo.series.EpisodeItem> */)
+                onSeriesDetailsListeners.onDataSetIntoSessionAdapter(seasonContent = seasonList[position])
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                seriesAdapter.addAll(seasonList[0].contents as ArrayList<EpisodeItem> /* = java.util.ArrayList<com.pojo.series.EpisodeItem> */)
+                onSeriesDetailsListeners.onDataSetIntoSessionAdapter(seasonContent = seasonList[0])
             }
         }
 
-    }
-
-    private fun playVideo(episodeItem: EpisodeItem){
-        showNextPreviousController(value = true)
-        if (episodeItem.premium){
-            if (isSubscribed){
-                showEpisode(episodeItem = episodeItem)
-            }else{
-                callback?.onPremiumContentClick(this , contentId = "${seriesInfo.id}", type = "series")
-            }
-        }else{
-            showEpisode(episodeItem = episodeItem)
-        }
-    }
-
-    private fun showEpisode(episodeItem: EpisodeItem){
-        contentTitle.text = "${episodeItem.title}"
-        contentID = "${episodeItem.id}"
-        binding.nowPlaying.text = "Now Playing: ${episodeItem.title}"
-        playContent("${episodeItem.path}")
-        contentTitle.text = "${episodeItem.title}"
     }
 
     private fun displayVideoInfo(seriesInfo: SeriesInfo) {
@@ -336,24 +286,7 @@ class SeriesDetailsActivity : DetailsBaseActivity(), OnSeriesCallBack, onDeviceR
 
 
     override fun onSeriesCallback(value: EpisodeItem, position: Int) {
-
-        if (value.premium){
-            if (isSubscribed){
-                playVideo(value)
-                episodeId = value.id
-                globalEpisodeItem = value
-                seriesIndex = position
-                isTrailerPlaying = false
-            }else{
-                callback?.onPremiumContentClick(this , contentId = "${seriesInfo.id}", type = "series")
-            }
-        }else{
-            playVideo(value)
-            episodeId = value.id
-            globalEpisodeItem = value
-            seriesIndex = position
-            isTrailerPlaying = false
-        }
+        onSeriesDetailsListeners.onSeriesEpisodeClick(value = value , position = position)
     }
 
     override fun onFullScreenButtonClick() {
@@ -400,6 +333,60 @@ class SeriesDetailsActivity : DetailsBaseActivity(), OnSeriesCallBack, onDeviceR
 
     override fun onSharedPreferenceChanged(p0: SharedPreferences?, p1: String?) {
         seriesViewModel.getSeriesDetails(argumentId)
+    }
+
+    override fun onPremiumEpisodeDecide(episodeItem: EpisodeItem) {
+        if (episodeItem.premium){
+            if (isSubscribed){
+                onSeriesDetailsListeners.onEpisodeContentPlay(episodeItem = episodeItem)
+            }else{
+                callback?.onPremiumContentClick(this , contentId = "${seriesInfo.id}", type = "series")
+            }
+        }else{
+            onSeriesDetailsListeners.onEpisodeContentPlay(episodeItem = episodeItem)
+        }
+    }
+
+    override fun onEpisodeContentPlay(episodeItem: EpisodeItem) {
+        onSeriesDetailsListeners.onEpisodeInformationShow(episodeItem = episodeItem)
+        playContent(episodeItem.path)
+    }
+    override fun onDataSetIntoSessionAdapter(seasonContent: SeasonContent) {
+        seriesAdapter.clearList()
+        seriesContentList.clear()
+        for (item in seasonContent.contents) {
+            seriesContentList.add(item)
+        }
+        onSeriesDetailsListeners.onPremiumEpisodeDecide(episodeItem = seasonContent.contents[0])
+        seriesAdapter.addAll(seasonContent.contents as ArrayList<EpisodeItem> /* = java.util.ArrayList<com.pojo.series.EpisodeItem> */)
+    }
+
+    override fun onEpisodeInformationShow(episodeItem: EpisodeItem) {
+        contentTitle.text = episodeItem.title
+        binding.nowPlaying.text = "Now Playing: ${episodeItem.title}"
+        contentTitle.text = episodeItem.title
+    }
+
+    override fun onSeekForward(duration: Long) {
+        corePlayer.seekTo(corePlayer.currentPosition+duration)
+    }
+
+    override fun onSeekBackward(duration: Long) {
+        corePlayer.seekTo(corePlayer.currentPosition-5000)
+    }
+
+    override fun onSeriesEpisodeClick(value: EpisodeItem, position: Int) {
+        if (value.premium){
+            if (isSubscribed){
+                onSeriesDetailsListeners.onPremiumEpisodeDecide(value)
+                seriesIndex = position
+            }else{
+                callback?.onPremiumContentClick(this , contentId = "${seriesInfo.id}", type = "series")
+            }
+        }else{
+            onSeriesDetailsListeners.onPremiumEpisodeDecide(value)
+            seriesIndex = position
+        }
     }
 
 }

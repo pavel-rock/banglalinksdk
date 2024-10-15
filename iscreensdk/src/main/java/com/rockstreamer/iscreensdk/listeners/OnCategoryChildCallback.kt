@@ -4,5 +4,5 @@ import com.rockstreamer.iscreensdk.pojo.category.Contents
 
 
 interface OnCategoryChildCallback {
-    fun onCategoryItemCallback(contents: Contents, type:String)
+    fun onCategoryItemCallback(contents: Contents)
 }

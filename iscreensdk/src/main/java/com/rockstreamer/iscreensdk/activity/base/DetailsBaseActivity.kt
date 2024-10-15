@@ -24,6 +24,7 @@ import com.rockstreamer.iscreensdk.R
 import com.rockstreamer.iscreensdk.api.viewmodel.details.VideoDetailsViewModel
 import com.rockstreamer.iscreensdk.api.viewmodel.recommand.RecommandViewModel
 import com.rockstreamer.iscreensdk.api.viewmodel.series.SeriesViewModel
+import com.rockstreamer.iscreensdk.listeners.OnSeriesDetailsListeners
 import com.rockstreamer.iscreensdk.pojo.others.Genres
 import com.rockstreamer.iscreensdk.utils.CustomAlertDialog
 import com.rockstreamer.iscreensdk.utils.PADDING
@@ -53,6 +54,12 @@ abstract class DetailsBaseActivity: AppCompatActivity() , Orientation.Listener, 
     private lateinit var progressDialog: ProgressDialog
     private lateinit var exoLoading: ProgressBar
     var isFullScreen = false
+
+    lateinit var onSeriesDetailsListeners : OnSeriesDetailsListeners
+
+    fun setDetailsListeners(listeners: OnSeriesDetailsListeners){
+        this.onSeriesDetailsListeners = listeners
+    }
 
 
     lateinit var enterFullScreenButton: AppCompatImageButton
