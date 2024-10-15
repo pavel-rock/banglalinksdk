@@ -104,11 +104,11 @@ class SeriesDetailsActivity : DetailsBaseActivity(), OnSeriesCallBack, onDeviceR
         registerOnSharedPreferenceChangedListener(this)
 
         findViewById<ImageView>(R.id.exo_ffwd).setOnClickListener {
-            onSeriesDetailsListeners.onSeekForward(5000)
+            onSeriesDetailsListeners.onSeekForward(10000)
         }
 
         findViewById<ImageView>(R.id.exo_rew).setOnClickListener {
-            onSeriesDetailsListeners.onSeekBackward(5000)
+            onSeriesDetailsListeners.onSeekBackward(10000)
         }
 
         var argument = intent.getStringExtra(SERIES_ID_PASS)

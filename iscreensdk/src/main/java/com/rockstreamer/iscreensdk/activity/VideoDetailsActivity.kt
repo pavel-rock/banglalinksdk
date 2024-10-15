@@ -314,8 +314,17 @@ class VideoDetailsActivity : DetailsBaseActivity(), OnRecommandCallback, onDevic
     }
 
     override fun onRecommandClick(response: RecommendedResponse) {
-        videoDetailsViewModel.getVideoDetails(response.id.toString())
-        recommandViewModel.recommandApi("video")
+        if (response.premium){
+            if (getSubscriptionInformation().subscribe){
+                videoDetailsViewModel.getVideoDetails(response.id.toString())
+                recommandViewModel.recommandApi("video")
+            }else{
+                callback?.onPremiumContentClick(this , type = "${response.type }", contentId = "${response.id}" )
+            }
+        }else{
+            videoDetailsViewModel.getVideoDetails(response.id.toString())
+            recommandViewModel.recommandApi("video")
+        }
     }
 
 
