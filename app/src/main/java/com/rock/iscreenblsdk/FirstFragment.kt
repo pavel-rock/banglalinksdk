@@ -6,9 +6,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.rock.iscreenblsdk.databinding.FragmentFirstBinding
 import com.rockstreamer.iscreensdk.listeners.oniScreenPremiumCallBack
+import com.rockstreamer.iscreensdk.utils.openiScreenContentFromBl
 import com.rockstreamer.iscreensdk.utils.openiScreenSDK
 
 /**
@@ -28,6 +30,10 @@ class FirstFragment : Fragment(), oniScreenPremiumCallBack {
     ): View {
 
         _binding = FragmentFirstBinding.inflate(inflater, container, false)
+
+        binding.buttonOpenContent.setOnClickListener {
+            requireActivity().openiScreenContentFromBl(id = "7402", type = "series", this)
+        }
         return binding.root
 
     }
@@ -46,7 +52,7 @@ class FirstFragment : Fragment(), oniScreenPremiumCallBack {
     }
 
     override fun onPremiumContentClick(context: Context, contentId: String, type: String) {
-
+        Toast.makeText(requireActivity() , type, Toast.LENGTH_SHORT).show()
     }
 
     override fun onTokenInvalid() {

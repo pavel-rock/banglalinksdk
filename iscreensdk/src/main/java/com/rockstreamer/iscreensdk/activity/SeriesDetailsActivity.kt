@@ -52,11 +52,9 @@ class SeriesDetailsActivity : DetailsBaseActivity(), OnSeriesCallBack, onDeviceR
     var seriesIndex = 0
 
     private var isTrailerPlaying = false
-
     private var contentID:String?=null
-
     lateinit var argumentId : String
-
+    private var isSubscribed = getSubscriptionInformation().subscribe
     override fun onStartDetails() {
 
 
@@ -208,13 +206,11 @@ class SeriesDetailsActivity : DetailsBaseActivity(), OnSeriesCallBack, onDeviceR
     }
 
     override fun onNextClick() {
-
         nextSeries()
     }
 
 
     override fun onPreviousClick() {
-
         if (seriesIndex > 0){
             seriesIndex-=1
             playVideo(seriesContentList[seriesIndex])
