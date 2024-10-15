@@ -45,8 +45,8 @@ class SeriesDetailsActivity : DetailsBaseActivity(), OnSeriesCallBack, onDeviceR
 
     lateinit var seriesAdapter: SeriesAdapter
     private lateinit var seriesInfo: SeriesInfo
-    private lateinit var seasonContent: SeasonContent
-    lateinit var episodeItem: EpisodeItem
+    private lateinit var globalSeasonContent: SeasonContent
+    lateinit var globalEpisodeItem: EpisodeItem
     var episodeId: Int ?= null
     var seriesContentList: MutableList<EpisodeItem> = arrayListOf()
     var seriesIndex = 0
@@ -158,7 +158,7 @@ class SeriesDetailsActivity : DetailsBaseActivity(), OnSeriesCallBack, onDeviceR
                     displayVideoInfo(it.data.seriesInfo)
 
                     if (seriesInfo.premium){
-                        if (getSubscriptionInformation().subscribe){
+                        if (isSubscribed){
                             showSpinner(it.data.contents)
                         }else{
                             if (callback!=null){
@@ -182,7 +182,7 @@ class SeriesDetailsActivity : DetailsBaseActivity(), OnSeriesCallBack, onDeviceR
         binding.layoutTrailer.setOnClickListener {
             isTrailerPlaying = true
             showNextPreviousController(value = false)
-            seasonContent?.let {
+            globalSeasonContent?.let {
                 if (!it.trailerPath.isNullOrEmpty()){
                     playContent("${it.trailerPath}")
                     contentTitle.text = "${it.title} Trailer"
@@ -229,20 +229,14 @@ class SeriesDetailsActivity : DetailsBaseActivity(), OnSeriesCallBack, onDeviceR
         val seriesTitleList: MutableList<String> = ArrayList()
         seriesTitleList.clear()
 
-
         for (item in seasonList){
             seriesTitleList.add(item.title)
         }
-        seasonContent = seasonList[0]
-        episodeItem = seasonList[0].contents[0]
-        playVideo(episodeItem)
+        globalSeasonContent = seasonList[0]
+        globalEpisodeItem = seasonList[0].contents[0]
+        playVideo(globalEpisodeItem)
 
-        if (!seasonList[0].trailerPath.isNullOrEmpty()){
-            binding.layoutTrailer.show()
-        }else {
-            binding.layoutTrailer.gone()
-        }
-        episodeId = episodeItem.id
+        episodeId = globalEpisodeItem.id
         seriesContentList.clear()
 
         for (item in seasonList[0].contents){
@@ -279,6 +273,18 @@ class SeriesDetailsActivity : DetailsBaseActivity(), OnSeriesCallBack, onDeviceR
 
     private fun playVideo(episodeItem: EpisodeItem){
         showNextPreviousController(value = true)
+        if (episodeItem.premium){
+            if (isSubscribed){
+                showEpisode(episodeItem = episodeItem)
+            }else{
+                callback?.onPremiumContentClick(this , contentId = "${seriesInfo.id}", type = "series")
+            }
+        }else{
+            showEpisode(episodeItem = episodeItem)
+        }
+    }
+
+    private fun showEpisode(episodeItem: EpisodeItem){
         contentTitle.text = "${episodeItem.title}"
         contentID = "${episodeItem.id}"
         binding.nowPlaying.text = "Now Playing: ${episodeItem.title}"
@@ -309,17 +315,7 @@ class SeriesDetailsActivity : DetailsBaseActivity(), OnSeriesCallBack, onDeviceR
     }
 
     override fun onVideoEnd() {
-        if (isTrailerPlaying){
-            isTrailerPlaying = false
-            if (seasonContent.premium){
-
-
-            }else{
-                playVideo(seriesContentList[0])
-            }
-        }else{
-            nextSeries()
-        }
+        nextSeries()
     }
 
     override fun onIdle() {
@@ -340,11 +336,24 @@ class SeriesDetailsActivity : DetailsBaseActivity(), OnSeriesCallBack, onDeviceR
 
 
     override fun onSeriesCallback(value: EpisodeItem, position: Int) {
-        playVideo(value)
-        episodeId = value.id
-        episodeItem = value
-        seriesIndex = position
-        isTrailerPlaying = false
+
+        if (value.premium){
+            if (isSubscribed){
+                playVideo(value)
+                episodeId = value.id
+                globalEpisodeItem = value
+                seriesIndex = position
+                isTrailerPlaying = false
+            }else{
+                callback?.onPremiumContentClick(this , contentId = "${seriesInfo.id}", type = "series")
+            }
+        }else{
+            playVideo(value)
+            episodeId = value.id
+            globalEpisodeItem = value
+            seriesIndex = position
+            isTrailerPlaying = false
+        }
     }
 
     override fun onFullScreenButtonClick() {
