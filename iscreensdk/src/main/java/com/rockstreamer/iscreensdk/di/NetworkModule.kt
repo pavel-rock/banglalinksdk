@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit
 
 val networkModule = module {
     single { provideOkHttpClient() }
-    single { provideRetrofit(get() , "https://dev-api.rockstreamer.com/") }
+    single { provideRetrofit(get() , BASE_URL) }
     single { provideApiService(get()) }
     single { provideNetworkHelper(androidContext()) }
     single<ApiHelper> {
