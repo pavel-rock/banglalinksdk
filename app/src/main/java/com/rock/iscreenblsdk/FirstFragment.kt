@@ -16,13 +16,16 @@ import com.rockstreamer.iscreensdk.utils.openiScreenSDK
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
-class FirstFragment : Fragment(), oniScreenPremiumCallBack {
+
+
+class FirstFragment : Fragment(), oniScreenPremiumCallBack , {
 
     private var _binding: FragmentFirstBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
