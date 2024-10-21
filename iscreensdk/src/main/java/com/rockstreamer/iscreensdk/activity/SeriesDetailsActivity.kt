@@ -22,6 +22,7 @@ import com.rockstreamer.iscreensdk.activity.base.DetailsBaseActivity
 import com.rockstreamer.iscreensdk.activity.base.onDeviceRotation
 import com.rockstreamer.iscreensdk.adapter.SeriesAdapter
 import com.rockstreamer.iscreensdk.databinding.SeriesDetailsActivityBinding
+import com.rockstreamer.iscreensdk.di.viewModelModule
 import com.rockstreamer.iscreensdk.listeners.OnSeriesCallBack
 import com.rockstreamer.iscreensdk.listeners.OnSeriesDetailsListeners
 import com.rockstreamer.iscreensdk.listeners.oniScreenPremiumCallBack

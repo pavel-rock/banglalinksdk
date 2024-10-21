@@ -94,9 +94,7 @@ class VideoDetailsActivity : DetailsBaseActivity(), OnRecommandCallback, onDevic
         setOnDeviceRotationListener(this)
         setupController(findViewById<LinearLayout>(R.id.linear_control))
         registerOnSharedPreferenceChangedListener(this)
-        binding.premiumButton.setOnClickListener {
 
-        }
 
         val actionBar = supportActionBar
         actionBar?.hide()
@@ -181,13 +179,6 @@ class VideoDetailsActivity : DetailsBaseActivity(), OnRecommandCallback, onDevic
                     binding.recommendedProgressbar.gone()
                     //showErrorToast(it.message.toString())
                 }
-            }
-        }
-
-
-        binding.layoutTrailer.setOnClickListener {
-            if (!trailerLink.isNullOrBlank()){
-                corePlayer.setMediaUri(uri = Uri.parse(trailerLink), vastTag = "" , isAdsShow = false)
             }
         }
 
@@ -282,14 +273,6 @@ class VideoDetailsActivity : DetailsBaseActivity(), OnRecommandCallback, onDevic
 
     @SuppressLint("SetTextI18n")
     private fun displayVideoInfo(videoDetailsResponse: VideoDetailsResponse) {
-
-        if (videoDetailsResponse.trailer){
-            trailerLink = videoDetailsResponse.trailerPath
-            binding.layoutTrailer.show()
-        }else{
-            binding.layoutTrailer.gone()
-        }
-
         binding.videoTitle.text = videoDetailsResponse.title
         showGeners(videoDetailsResponse.genres, binding.videoGener)
         showDetails(videoDetailsResponse)

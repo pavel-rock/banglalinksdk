@@ -121,64 +121,10 @@
 
                 </RelativeLayout>
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/premium_button"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                    android:layout_width="match_parent"
-                    app:strokeColor="@color/color_theme_primary"
-                    app:cornerRadius="@dimen/_15sdp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/_10sdp"
-                    android:layout_marginRight="@dimen/_10sdp"
-                    android:visibility="gone"
-                    android:layout_marginTop="30dp"
-                    android:text="@string/premium_button"
-                    android:textColor="@color/black"
-                    app:layout_constraintLeft_toRightOf="parent"
-                    app:layout_constraintRight_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/details_text"/>
-
-                <LinearLayout
-                    app:layout_constraintTop_toBottomOf="@id/premium_button"
-                    android:id="@+id/option_layout"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="@dimen/_15sdp"
-                    android:layout_width="match_parent"
-                    android:visibility="gone"
-                    android:layout_height="wrap_content"
-                    tools:ignore="MissingConstraints">
-
-                    <LinearLayout
-                        android:id="@+id/layout_trailer"
-                        android:orientation="vertical"
-                        android:layout_width="0dp"
-                        android:visibility="gone"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content">
-
-                        <ImageView
-                            android:id="@+id/icon_trailer"
-                            android:layout_gravity="center"
-                            android:background="@drawable/ic_movie_trailer"
-                            android:layout_width="@dimen/action_layout_size"
-                            android:layout_height="@dimen/action_layout_size"/>
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:text="@string/watch_trailer"
-                            android:textColor="@color/black"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="@dimen/_5sdp"
-                            android:textSize="@dimen/action_text_size"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-
-                    </LinearLayout>
-
-                </LinearLayout>
 
 
                 <RelativeLayout
-                    app:layout_constraintTop_toBottomOf="@id/option_layout"
+                    app:layout_constraintTop_toBottomOf="@id/details_text"
                     android:layout_marginTop="@dimen/_15sdp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">

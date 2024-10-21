@@ -103,29 +103,15 @@ class IScreenActivity : BaseActivity() , onBannerCallback, OnCategoryCallback, o
     }
 
     override fun onBannerClick(item: SliderResponse) {
-        when(item.contentType){
-            "video" ->{
-                if (item.premium){
-                    if (getSubscriptionInformation().subscribe){
-                        openDetailsScreen(item.contentId, "video", this)
-                    }else{
-                        callback?.onPremiumContentClick(context = this, contentId = "${item.contentId}", type = "video")
-                    }
-                }else{
-                    openDetailsScreen(item.contentId, "video", this)
-                }
+        if (item.premium){
+            if (getSubscriptionInformation().subscribe){
+                openDetailsScreen("${item.contentId}", type = "${item.contentType}", this)
+            }else{
+                callback?.onPremiumContentClick(context = this, contentId = "${item.contentId}", type = "${item.contentType}" )
             }
-            "series" ->{
-                if (item.premium){
-                    if (getSubscriptionInformation().subscribe){
-                        openDetailsScreen(item.contentId, "series", this)
-                    }else{
-                        callback?.onPremiumContentClick(context = this, contentId = "${item.contentId}", type = "series")
-                    }
-                }else{
-                    openDetailsScreen(item.contentId, "series", this)
-                }
-            }
+        }else{
+            openDetailsScreen("${item.contentId}", type = "${item.contentType}", this)
+            //Log.d("APP_STATUS", "${contents.type} : ${contents.id}")
         }
     }
 
