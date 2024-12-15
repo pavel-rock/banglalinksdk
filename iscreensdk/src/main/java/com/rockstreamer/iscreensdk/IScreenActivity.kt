@@ -103,7 +103,7 @@ class IScreenActivity : BaseActivity() , onBannerCallback, OnCategoryCallback, o
     }
 
     override fun onBannerClick(item: SliderResponse) {
-        if (item.premium){
+        if (item.premium || item.tvod){
             if (getSubscriptionInformation().subscribe){
                 openDetailsScreen("${item.contentId}", type = "${item.contentType}", this)
             }else{
@@ -111,7 +111,6 @@ class IScreenActivity : BaseActivity() , onBannerCallback, OnCategoryCallback, o
             }
         }else{
             openDetailsScreen("${item.contentId}", type = "${item.contentType}", this)
-            //Log.d("APP_STATUS", "${contents.type} : ${contents.id}")
         }
     }
 
@@ -125,7 +124,7 @@ class IScreenActivity : BaseActivity() , onBannerCallback, OnCategoryCallback, o
     }
 
     override fun onCategoryChildClickCallback(contents: Contents) {
-        if (contents.premium){
+        if (contents.premium || contents.tvod){
             if (getSubscriptionInformation().subscribe){
                 openDetailsScreen("${contents.id}", type = "${contents.type}", this)
             }else{

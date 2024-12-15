@@ -23,7 +23,7 @@ class SeeMorePagingSource (private val contentRepository: ContentRepository, val
             val position = params.key ?:1
             val response = contentRepository.getSeeMore(token = "${loginState.getString(API_TOKEN , "")}",id = id , position)
             LoadResult.Page(
-                data = response.body()!!.contents.items.filter { !it.tvod },
+                data = response.body()!!.contents.items,
                 prevKey = if (position == 1) null else position - 1 ,
                 nextKey = if (position < response.body()!!.contents.totalPage) response.body()!!.contents.page.plus(1) else null
             )

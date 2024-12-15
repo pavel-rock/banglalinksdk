@@ -66,22 +66,10 @@ class CategoryMainAdapterWithoutAds(var callback: OnCategoryCallback): PagingDat
         val categoryItem = getItem(position) as CategoryItems
         holder.bindContent(categoryItem)
 
-        if (categoryItem.feature_contents!=null){
-            holder.bindFeatureShowHide(true)
-            bindFeaturebutton(categoryItem.type!!, holder.featureButtonClick)
-            holder.bindFeature(categoryItem.feature_contents[0])
-
-            if (categoryItem.feature_contents[0].premium){
-                holder.featurePremium.imagePremium.show()
-            }else{
-                holder.featurePremium.imagePremium.gone()
-            }
-        } else holder.bindFeatureShowHide(false)
-
         holder.mainLayout.animation = AnimationUtils.loadAnimation(holder.itemView.context, R.anim.recycleview_anim)
 
         if (categoryItem.type!=null && categoryItem.contents!=null){
-            categoryChildAdapter = categoryItem.imageOrientation?.let { CategoryChildAdapter(categoryItem.contents.filter { !it.tvod }, categoryItem.type!!, imageOrientation = it, this) }
+            categoryChildAdapter = categoryItem.imageOrientation?.let { CategoryChildAdapter(categoryItem.contents, categoryItem.type!!, imageOrientation = it, this) }
             holder.setChildRecycleView(categoryChildAdapter!!)
         }
 
@@ -107,21 +95,10 @@ class CategoryMainAdapterWithoutAds(var callback: OnCategoryCallback): PagingDat
         val categoryItem = getItem(position) as CategoryItems
         holder.bindContent(categoryItem)
 
-        if (categoryItem.feature_contents!=null){
-            holder.bindFeatureShowHide(true)
-            holder.bindFeature(categoryItem.feature_contents[0])
-            bindFeaturebutton(categoryItem.type!!, holder.featureButtonClick)
-            if (categoryItem.feature_contents[0].premium){
-                holder.featurePremium.imagePremium.show()
-            }else{
-                holder.featurePremium.imagePremium.gone()
-            }
-        } else holder.bindFeatureShowHide(false)
-
         holder.mainLayout.animation = AnimationUtils.loadAnimation(holder.itemView.context, R.anim.recycleview_anim)
 
         if (categoryItem.type!=null && categoryItem.contents!=null){
-            categoryChildAdapter = categoryItem.imageOrientation?.let { CategoryChildAdapter(categoryItem.contents.filter { !it.tvod }, categoryItem.type!!, imageOrientation = it, this) }
+            categoryChildAdapter = categoryItem.imageOrientation?.let { CategoryChildAdapter(categoryItem.contents, categoryItem.type, imageOrientation = it, this) }
             holder.setChildRecycleView(categoryChildAdapter!!)
         }
 
@@ -216,52 +193,6 @@ class CategoryMainAdapterWithoutAds(var callback: OnCategoryCallback): PagingDat
             binding.textCategoryMore.text = categoryItems.title
         }
 
-        fun bindFeature(featureContent: FeatureContent){
-            //binding.featureMainLayout.featureItem = featureContent
-            //binding.featureMainLayout.featureGenre = showGenre(featureContent.genres)
-
-            Glide.with(binding.featureMainLayout.featureBackground.context)
-                .asBitmap()
-                .load(IMAGE_URL +featureContent.horizontalThumbnails[0].path)
-                .placeholder(R.drawable.ic_video_thumb)
-                .into(object : CustomTarget<Bitmap>(){
-                    override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                        val palette: Palette = Palette.from(resource).generate()
-                        val vibrant = getMostPopulousSwatch(palette)
-
-                        val colors = intArrayOf( vibrant!!.rgb , Color.parseColor("#2B2D36"))
-                        val gd = GradientDrawable(
-                            GradientDrawable.Orientation.TOP_BOTTOM, colors
-                        )
-                        gd.cornerRadius = 0f
-                        binding.featureMainLayout.featureBackground.background = gd
-                        binding.featureMainLayout.imageFeature.setImageBitmap(resource)
-                    }
-                    override fun onLoadCleared(placeholder: Drawable?) {
-
-                    }
-                })
-
-
-//            if (featureContent.description!!.length >80){
-//                var testString:String = "${featureContent.description}"
-//                var upto :String = testString.substring(0 , testString.length.coerceAtMost(80))
-//                "${upto}....".also { binding.featureMainLayout.featureDescription = it }
-//            } else {
-//                if (featureContent.description!=null){
-//                    binding.featureMainLayout.featureDescription = featureContent.description
-//                }
-//            }
-        }
-
-        fun bindFeatureShowHide(value:Boolean){
-            if (value){
-                binding.featureMainLayout.featureLayout.show()
-            } else {
-                binding.featureMainLayout.featureLayout.gone()
-            }
-        }
-
         fun setChildRecycleView(adapter: CategoryChildAdapter){
             val snapHelperStart = StartSnapHelper()
             snapHelperStart.attachToRecyclerView(binding.homeRecyclerViewHorizontal)
@@ -277,7 +208,7 @@ class CategoryMainAdapterWithoutAds(var callback: OnCategoryCallback): PagingDat
         var seeMoreButton = binding.moreImage
         var seeMoreText = binding.textMore
         var mainLayout = binding.mainLayout
-        var featurePremium = binding.featureMainLayout.premiumLayout
+
 
 
         init {
@@ -297,51 +228,6 @@ class CategoryMainAdapterWithoutAds(var callback: OnCategoryCallback): PagingDat
 
         fun bindContent(categoryItems: CategoryItems){
             binding.textCategoryMore.text = categoryItems.title
-        }
-
-        fun bindFeature(featureContent: FeatureContent){
-            //binding.featureMainLayout.featureItem = featureContent
-            //binding.featureMainLayout.featureGenre = showGenre(featureContent.genres)
-
-            Glide.with(binding.featureMainLayout.featureBackground.context)
-                .asBitmap()
-                .load(IMAGE_URL +featureContent.horizontalThumbnails[0].path)
-                .placeholder(R.drawable.ic_video_thumb)
-                .into(object : CustomTarget<Bitmap>(){
-                    override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                        val palette: Palette = Palette.from(resource).generate()
-                        val vibrant = getMostPopulousSwatch(palette)
-
-                        val colors = intArrayOf( vibrant!!.rgb , Color.parseColor("#2B2D36"))
-                        val gd = GradientDrawable(
-                            GradientDrawable.Orientation.TOP_BOTTOM, colors
-                        )
-                        gd.cornerRadius = 0f
-                        binding.featureMainLayout.featureBackground.background = gd
-                        binding.featureMainLayout.imageFeature.setImageBitmap(resource)
-                    }
-                    override fun onLoadCleared(placeholder: Drawable?) {
-
-                    }
-                })
-
-//            if (featureContent.description!!.length >80){
-//                var testString:String = "${featureContent.description}"
-//                var upto :String = testString.substring(0 , testString.length.coerceAtMost(80))
-//                "${upto}....".also { binding.featureMainLayout.featureDescription = it }
-//            } else {
-//                if (featureContent.description!=null){
-//                    binding.featureMainLayout.featureDescription = featureContent.description
-//                }
-//            }
-        }
-
-        fun bindFeatureShowHide(value:Boolean){
-            if (value){
-                binding.featureMainLayout.featureLayout.show()
-            } else {
-                binding.featureMainLayout.featureLayout.gone()
-            }
         }
 
         fun setChildRecycleView(adapter: CategoryChildAdapter){

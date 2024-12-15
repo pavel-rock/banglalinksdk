@@ -35,6 +35,7 @@
             android:gravity="center"
             android:layout_marginTop="@dimen/_3sdp"
             android:textSize="@dimen/category_title_size"
+            android:maxLines="2"
             android:textColor="@color/black"
             android:layout_width="@dimen/video_image_width"
             android:layout_height="wrap_content" />

@@ -28,14 +28,9 @@ class SeeMoreVideoPagingAdapter(private val callBack: OnSeeMoreContentListener, 
                 verticalHolder.bind(item!!)
                 verticalHolder.mainLayout.animation = AnimationUtils.loadAnimation(holder.itemView.context, R.anim.recycleview_anim)
 
-                verticalHolder.view.setOnClickListener {
-                    if (item.type.equals("video")){
-                        callBack.onSeeMoreContentClick("${item.id}" , "video", premium = item.premium)
-                    } else if (item.type.equals("series")){
-                        callBack.onSeeMoreContentClick("${item.id}", "series", premium = item.premium)
-                    } else {
-                        callBack.onSeeMoreContentClick("${item.id}" , "video", premium = item.premium)
-                    }
+                verticalHolder.view.setOnClickListener{
+                    var value = item.premium || item.tvod
+                    callBack.onSeeMoreContentClick("${item.id}" , "${item.type}", premium = value)
                 }
             }
 
@@ -45,14 +40,10 @@ class SeeMoreVideoPagingAdapter(private val callBack: OnSeeMoreContentListener, 
                 horizontalHolder.bind(item!!)
                 horizontalHolder.mainLayout.animation = AnimationUtils.loadAnimation(holder.itemView.context, R.anim.recycleview_anim)
 
-                horizontalHolder.view.setOnClickListener {
-                    if (item.type.equals("video")){
-                        callBack.onSeeMoreContentClick("${item.id}" , "video", premium = item.premium)
-                    } else if (item.type.equals("series")){
-                        callBack.onSeeMoreContentClick("${item.id}", "series", premium = item.premium)
-                    } else {
-                        callBack.onSeeMoreContentClick("${item.id}" , "video", premium = item.premium)
-                    }
+
+                horizontalHolder.view.setOnClickListener{
+                    var value = item.premium || item.tvod
+                    callBack.onSeeMoreContentClick("${item.id}" , "${item.type}", premium = value)
                 }
             }
         }

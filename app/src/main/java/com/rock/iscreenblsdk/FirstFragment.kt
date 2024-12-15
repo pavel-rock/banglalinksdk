@@ -35,7 +35,7 @@ class FirstFragment : Fragment(), oniScreenPremiumCallBack {
         _binding = FragmentFirstBinding.inflate(inflater, container, false)
 
         binding.buttonOpenContent.setOnClickListener {
-            //requireActivity().openiScreenContentFromBl(id = "6077", type = "series", this)
+            //requireActivity().openiScreenContentFromBl(id = "7975", type = "video", this)
             requireActivity().openiScreenSDK(this)
         }
         return binding.root

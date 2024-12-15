@@ -152,7 +152,7 @@ class SeriesDetailsActivity : DetailsBaseActivity(), OnSeriesCallBack, onDeviceR
                     seriesInfo = it.data!!.seriesInfo
                     displayVideoInfo(it.data.seriesInfo)
 
-                    if (seriesInfo.premium){
+                    if (seriesInfo.premium || seriesInfo.tvod){
                         if (isSubscribed){
                             showSpinner(it.data.contents)
                         }else{

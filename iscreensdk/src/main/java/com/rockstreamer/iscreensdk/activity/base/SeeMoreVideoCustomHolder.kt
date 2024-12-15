@@ -23,7 +23,7 @@ class SeeMoreVideoCustomHolder(private val binding: ItemSeemoreVideoBinding):Rec
                 ImageLoader.loadVideoImage(context = view.context , url = AVATAR , imageView = binding.videoThumbImage)
             }
         }
-        if (seeMoreItems.premium){
+        if (seeMoreItems.premium || seeMoreItems.tvod){
             binding.premiumLayout.imagePremium.show()
         } else {
             binding.premiumLayout.imagePremium.gone()
@@ -45,7 +45,7 @@ class SeeMoreVerticalVideoCustomHolder(private val binding: ItemSeemoreVerticalB
             }
         }
 
-        if (seeMoreResponse.premium){
+        if (seeMoreResponse.premium || seeMoreResponse.tvod){
             binding.premiumLayout.imagePremium.show()
         } else {
             binding.premiumLayout.imagePremium.gone()

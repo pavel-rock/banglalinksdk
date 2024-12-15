@@ -139,7 +139,7 @@ class VideoDetailsActivity : DetailsBaseActivity(), OnRecommandCallback, onDevic
                     displayVideoInfo(it.data!!)
                     videoDetailsResponse = it.data
 
-                    if (it.data.premium){
+                    if (it.data.premium || it.data.tvod){
                         if (getSubscriptionInformation().subscribe){
                             playVideo(videoDetailsResponse!!)
                         }else{
@@ -297,7 +297,7 @@ class VideoDetailsActivity : DetailsBaseActivity(), OnRecommandCallback, onDevic
     }
 
     override fun onRecommandClick(response: RecommendedResponse) {
-        if (response.premium){
+        if (response.premium || response.tvod){
             if (getSubscriptionInformation().subscribe){
                 videoDetailsViewModel.getVideoDetails(response.id.toString())
                 recommandViewModel.recommandApi("video")

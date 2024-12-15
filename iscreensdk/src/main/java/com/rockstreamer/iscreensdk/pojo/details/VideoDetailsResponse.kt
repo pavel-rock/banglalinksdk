@@ -30,4 +30,5 @@ data class VideoDetailsResponse(@SerializedName("id") val id: Long?,
                                 @SerializedName("trailerPath") val trailerPath: String,
                                 @SerializedName("restrictedCountry") val restricktedCountry: Boolean,
                                 @SerializedName("live") val isLive: Boolean,
+                                @SerializedName("tvod") val tvod: Boolean,
                                 @SerializedName("premium") val premium: Boolean)

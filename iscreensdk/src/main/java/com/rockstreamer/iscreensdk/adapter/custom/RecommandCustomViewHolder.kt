@@ -16,7 +16,7 @@ class RecommandCustomViewHolder(private val binding: ItemVideoRecommandBinding):
         if (!response.horizontalThumbnails.isNullOrEmpty()){
             ImageLoader.loadVideoImage(view.context , BASE_CATEGORY_VIDEO_IMAGE +response.horizontalThumbnails[0].path , binding.videoThumbImage)
         }
-        if (response.premium){
+        if (response.premium || response.tvod){
             binding.premiumLayout.imagePremium.show()
         }else{
             binding.premiumLayout.imagePremium.gone()

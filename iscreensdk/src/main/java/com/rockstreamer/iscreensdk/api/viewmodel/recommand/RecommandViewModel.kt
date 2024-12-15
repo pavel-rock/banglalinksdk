@@ -22,8 +22,7 @@ class RecommandViewModel(private val contentRepository: ContentRepository, priva
             if (networkHelper.isNetworkConnected()){
                 contentRepository.getRecommandedContent(token = "${loginState.getString(API_TOKEN , "")}",type).let {
                     if (it.isSuccessful){
-                        val tvodFilter = it.body()!!.filter { !it.tvod }
-                        _recommandResponse.postValue(Resource.success(tvodFilter) as Resource<ArrayList<RecommendedResponse>>?)
+                        _recommandResponse.postValue(Resource.success(it.body()) as Resource<ArrayList<RecommendedResponse>>?)
                     } else {
                         _recommandResponse.postValue(Resource.error(contentRepository.errorResponseManager(it.errorBody()!!), null))
                     }

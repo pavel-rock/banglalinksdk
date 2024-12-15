@@ -21,7 +21,7 @@ class CategoryVideoCustomViewHolder(private val binding: ItemLayoutVideoBinding)
             ImageLoader.loadVideoImage(context = view.context , url = BASE_CATEGORY_VIDEO_IMAGE+contents.horizontalThumbnails[0].path , imageView = binding.videoThumbImage)
         }
 
-        if (contents.premium){
+        if (contents.premium || contents.tvod){
             binding.premiumLayout.imagePremium.show()
         } else {
             binding.premiumLayout.imagePremium.gone()
@@ -38,7 +38,7 @@ class CategoryVerticalVideoCustomViewHolder(private val binding: ItemVerticaleVi
             ImageLoader.loadMovieImage(context = view.context , url = BASE_MOVIE_POSTER+contents.verticalThumbnails[0].path , imageView = binding.videoThumbImage)
         }
 
-        if (contents.premium){
+        if (contents.premium || contents.tvod){
             binding.premiumLayout.imagePremium.show()
         } else {
             binding.premiumLayout.imagePremium.gone()

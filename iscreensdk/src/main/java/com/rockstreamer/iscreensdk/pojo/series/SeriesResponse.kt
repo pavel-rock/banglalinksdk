@@ -38,9 +38,8 @@ data class SeriesInfo (
     @SerializedName("createdAt") var createdAt: String?,
     @SerializedName("private") val private : Boolean,
     @SerializedName("trailer") val trailer : Boolean,
-    @SerializedName("trailerPath") val trailerPath : String,
-
-    )
+    @SerializedName("tvod") val tvod: Boolean,
+    @SerializedName("trailerPath") val trailerPath : String)
 
 
 data class Directors (
@@ -55,10 +54,7 @@ data class Directors (
 
 
 
-
-
 data class SeasonContent (
-
     @SerializedName("id") val id : Int,
     @SerializedName("title") val title : String,
     @SerializedName("type") val type : String,
@@ -82,6 +78,7 @@ data class SeasonContent (
     @SerializedName("premium") val premium : Boolean,
     @SerializedName("private") val private : Boolean,
     @SerializedName("trailer") val trailer : Boolean,
+    @SerializedName("tvod") val tvod: Boolean,
     @SerializedName("trailerPath") val trailerPath : String
 )
 
@@ -106,6 +103,7 @@ data class EpisodeItem (
     @SerializedName("restrictedCountry") val restrictedCountry : Boolean,
     @SerializedName("premium") val premium : Boolean,
     @SerializedName("createdAt") var createdAt: String?,
+    @SerializedName("tvod") val tvod: Boolean,
     @SerializedName("horizontalThumbnails") val horizontalThumbnails : List<HorizontalThumbnails>,
     @SerializedName("verticalThumbnails") val verticalThumbnails : List<VerticalThumbnails>,
     @SerializedName("private") val private : Boolean
