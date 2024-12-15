@@ -35,6 +35,7 @@ import com.rockstreamer.iscreensdk.utils.rotation.Orientation
 import com.rockstreamer.iscreensdk.utils.show
 import com.rockstreamer.videoplayer.listeners.ExoPlayerEventListeners
 import com.rockstreamer.iscreensdk.player.player.ExoMediaPlayerImpl
+import com.rockstreamer.iscreensdk.utils.MixpanelAnalytics
 import com.rockstreamer.videoplayer.quality.QualityPopupManager
 import org.koin.android.ext.android.inject
 
@@ -49,6 +50,7 @@ abstract class DetailsBaseActivity: AppCompatActivity() , Orientation.Listener, 
     val videoDetailsViewModel : VideoDetailsViewModel by inject()
     val recommandViewModel: RecommandViewModel by inject()
     val seriesViewModel: SeriesViewModel by inject()
+    val mixpanelAnalytics : MixpanelAnalytics by inject()
     var mOrientation: Orientation? = null
     lateinit var alertDialog: AlertDialog
     private lateinit var progressDialog: ProgressDialog

@@ -210,6 +210,8 @@ class SeriesDetailsActivity : DetailsBaseActivity(), OnSeriesCallBack, onDeviceR
     }
 
     private fun showSpinner(seasonList: List<SeasonContent>){
+
+        mixpanelAnalytics.trackContent(contentTitle = "${seriesInfo.title}")
         val seriesTitleList: MutableList<String> = ArrayList()
         seriesTitleList.clear()
 

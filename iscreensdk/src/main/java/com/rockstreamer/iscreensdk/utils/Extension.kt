@@ -95,6 +95,7 @@ fun Context.openDetailsScreen(id:String , type:String, callback: oniScreenPremiu
 
 
 fun Context.openiScreenContentFromBl(id:String , type:String, callback: oniScreenPremiumCallBack){
+
     when(type){
         "video" ->{
             var intent = Intent(this, VideoDetailsActivity::class.java)

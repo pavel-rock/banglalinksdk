@@ -18,6 +18,7 @@ import com.rockstreamer.iscreensdk.pojo.category.Contents
 import com.rockstreamer.iscreensdk.pojo.category.FeatureContent
 import com.rockstreamer.iscreensdk.pojo.category.SortByBannerPosition
 import com.rockstreamer.iscreensdk.pojo.slider.SliderResponse
+import com.rockstreamer.iscreensdk.utils.MixpanelAnalytics
 import com.rockstreamer.iscreensdk.utils.SERIES_CONTENT
 import com.rockstreamer.iscreensdk.utils.VIDEO_CONTENT
 import com.rockstreamer.iscreensdk.utils.getSubscriptionInformation
@@ -27,13 +28,13 @@ import com.rockstreamer.iscreensdk.utils.openSeeMoreDetails
 import com.rockstreamer.iscreensdk.utils.registerOnSharedPreferenceChangedListener
 import com.rockstreamer.iscreensdk.utils.unregisterOnSharedPreferenceChangedListener
 import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
 import java.util.Collections
 
 class IScreenActivity : BaseActivity() , onBannerCallback, OnCategoryCallback, oniScreenPremiumCallBack , SharedPreferences.OnSharedPreferenceChangeListener{
 
     private lateinit var binding: IscreenActivityBinding
-
-
+    val mixpanelAnalytics : MixpanelAnalytics by inject()
     companion object{
         var callback: oniScreenPremiumCallBack?=null
         var context: Context ?= null
@@ -63,6 +64,7 @@ class IScreenActivity : BaseActivity() , onBannerCallback, OnCategoryCallback, o
         binding.categoryRecycleview.layoutManager = LinearLayoutManager(this)
         binding.categoryRecycleview.adapter = categoryMainAdapterWithAds
         binding.idToolbar.toolbarTitle.text = "iScreen"
+        mixpanelAnalytics.trackBlOpen("My Bl Open")
         registerOnSharedPreferenceChangedListener(this)
 
         binding.idToolbar.toolbarBack.setOnClickListener {
@@ -107,6 +109,7 @@ class IScreenActivity : BaseActivity() , onBannerCallback, OnCategoryCallback, o
             if (getSubscriptionInformation().subscribe){
                 openDetailsScreen("${item.contentId}", type = "${item.contentType}", this)
             }else{
+                mixpanelAnalytics.trackPremiumContent(eventName = item.title)
                 callback?.onPremiumContentClick(context = this, contentId = "${item.contentId}", type = "${item.contentType}" )
             }
         }else{
@@ -128,11 +131,11 @@ class IScreenActivity : BaseActivity() , onBannerCallback, OnCategoryCallback, o
             if (getSubscriptionInformation().subscribe){
                 openDetailsScreen("${contents.id}", type = "${contents.type}", this)
             }else{
+                mixpanelAnalytics.trackPremiumContent(eventName = "${contents.title}")
                 callback?.onPremiumContentClick(context = this, contentId = "${contents.id}", type = "${contents.type}" )
             }
         }else{
             openDetailsScreen("${contents.id}", type = "${contents.type}", this)
-            //Log.d("APP_STATUS", "${contents.type} : ${contents.id}")
         }
 
     }

@@ -17,6 +17,7 @@ import com.rockstreamer.iscreensdk.adapter.SeeMoreVideoPagingAdapter
 import com.rockstreamer.iscreensdk.databinding.ActivitySeemoreBinding
 import com.rockstreamer.iscreensdk.listeners.OnSeeMoreContentListener
 import com.rockstreamer.iscreensdk.listeners.oniScreenPremiumCallBack
+import com.rockstreamer.iscreensdk.pojo.seemore.SeeMoreItems
 import com.rockstreamer.iscreensdk.utils.EXTRA_SEEMORE_ORIENTATION
 import com.rockstreamer.iscreensdk.utils.EXTRA_SEEMORE_TITLE
 import com.rockstreamer.iscreensdk.utils.EXTRA_SEE_MORE_ID
@@ -24,6 +25,7 @@ import com.rockstreamer.iscreensdk.utils.EqualSpacingItemDecoration
 import com.rockstreamer.iscreensdk.utils.IMAGE_HORIZONTAL
 import com.rockstreamer.iscreensdk.utils.IMAGE_VERTICAL
 import com.rockstreamer.iscreensdk.utils.ITEM_SPACE
+import com.rockstreamer.iscreensdk.utils.MixpanelAnalytics
 import com.rockstreamer.iscreensdk.utils.SERIES_CONTENT
 import com.rockstreamer.iscreensdk.utils.VIDEO_CONTENT
 import com.rockstreamer.iscreensdk.utils.getSubscriptionInformation
@@ -38,6 +40,7 @@ class SeeMoreActivity : AppCompatActivity(), OnSeeMoreContentListener, oniScreen
 
     private val seeMoreViewModel : SeeMoreViewModel by inject()
     lateinit var seeMoreVideoAdapter: SeeMoreVideoPagingAdapter
+    val mixpanelAnalytics : MixpanelAnalytics by inject()
 
     lateinit var binding: ActivitySeemoreBinding
 
@@ -108,15 +111,17 @@ class SeeMoreActivity : AppCompatActivity(), OnSeeMoreContentListener, oniScreen
         }
     }
 
-    override fun onSeeMoreContentClick(id: String, type: String, premium: Boolean) {
-        if (premium){
+    override fun onSeeMoreContentClick(seeMoreItems: SeeMoreItems) {
+
+        if (seeMoreItems.premium || seeMoreItems.tvod){
             if (getSubscriptionInformation().subscribe){
-                openDetailsScreen(id = id , type = type, this)
+                openDetailsScreen(id = "${seeMoreItems.id}" , type = "${seeMoreItems.type}", this)
             }else{
-                IScreenActivity.callback?.onPremiumContentClick(context = this, contentId = "$id", type = type)
+                mixpanelAnalytics.trackPremiumContent(eventName = "${seeMoreItems.title}")
+                IScreenActivity.callback?.onPremiumContentClick(context = this, contentId = "${seeMoreItems.id}", type = "${seeMoreItems.type}")
             }
         }else{
-            openDetailsScreen(id = id , type = type, this)
+            openDetailsScreen(id = "${seeMoreItems.id}" , type = "${seeMoreItems.type}", this)
         }
     }
 

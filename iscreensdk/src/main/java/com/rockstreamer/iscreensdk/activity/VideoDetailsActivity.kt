@@ -46,8 +46,7 @@ class VideoDetailsActivity : DetailsBaseActivity(), OnRecommandCallback, onDevic
     private var videoDetailsResponse: VideoDetailsResponse?=null
     var recommondedAdapter: RecommandAdapter?=null
     var linearLayoutManagerRecommanded : LinearLayoutManager?=null
-
-    private var trailerLink:String?=null
+    
     private var contentID:String?=null
     private var isLive: Boolean = false
     lateinit var contentTitle: TextView
@@ -256,6 +255,7 @@ class VideoDetailsActivity : DetailsBaseActivity(), OnRecommandCallback, onDevic
     }
 
     private fun playVideo(videoDetailsResponse: VideoDetailsResponse){
+        mixpanelAnalytics.trackContent(contentTitle = "${videoDetailsResponse.title}")
         contentID = "${videoDetailsResponse.id}"
         contentTitle.text = "${videoDetailsResponse.title}"
 

@@ -29,8 +29,7 @@ class SeeMoreVideoPagingAdapter(private val callBack: OnSeeMoreContentListener, 
                 verticalHolder.mainLayout.animation = AnimationUtils.loadAnimation(holder.itemView.context, R.anim.recycleview_anim)
 
                 verticalHolder.view.setOnClickListener{
-                    var value = item.premium || item.tvod
-                    callBack.onSeeMoreContentClick("${item.id}" , "${item.type}", premium = value)
+                    callBack.onSeeMoreContentClick(item)
                 }
             }
 
@@ -42,8 +41,7 @@ class SeeMoreVideoPagingAdapter(private val callBack: OnSeeMoreContentListener, 
 
 
                 horizontalHolder.view.setOnClickListener{
-                    var value = item.premium || item.tvod
-                    callBack.onSeeMoreContentClick("${item.id}" , "${item.type}", premium = value)
+                    callBack.onSeeMoreContentClick(item)
                 }
             }
         }

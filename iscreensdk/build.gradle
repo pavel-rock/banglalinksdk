@@ -76,6 +76,7 @@ dependencies {
     kapt "com.github.bumptech.glide:compiler:$glide_version"
     implementation 'com.github.GrenderG:Toasty:1.5.2'
     implementation 'androidx.media:media:1.6.0'
+    implementation libs.mixpanel.android
 
     // ExoPlayer
     api "com.google.android.exoplayer:exoplayer-ui:$exoPlayerVersion"
