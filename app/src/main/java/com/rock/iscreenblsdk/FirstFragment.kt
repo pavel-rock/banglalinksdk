@@ -56,7 +56,7 @@ class FirstFragment : Fragment(), oniScreenPremiumCallBack {
     }
 
     override fun onPremiumContentClick(context: Context, contentId: String, type: String) {
-        Toast.makeText(requireActivity() , type, Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireActivity() , "Premium Content $contentId", Toast.LENGTH_SHORT).show()
     }
 
     override fun onTokenInvalid() {

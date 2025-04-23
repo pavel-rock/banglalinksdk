@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 
 
 const val BASE_URL = "https://api.rockstreamer.com/"
+
 const val API_TOKEN = "api_token"
 lateinit var loginState: SharedPreferences
 const val ISCREEN_SHAREDPREFERANCE = "iscreen_shared_preference"

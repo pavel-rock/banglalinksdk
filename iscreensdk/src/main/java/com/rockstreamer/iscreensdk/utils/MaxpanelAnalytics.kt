@@ -7,7 +7,7 @@ import org.json.JSONObject
 
 class MixpanelAnalytics(val context: Context) {
 
-    var mixpanel = MixpanelAPI.getInstance(context, "a299ebca8050cbae3c5bfdf8963ec465")
+    var mixpanel = MixpanelAPI.getInstance(context, "a299ebca8050cbae3c5bfdf8963ec465", false)
 
 
     fun trackContent(contentTitle:String){
