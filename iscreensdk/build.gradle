@@ -14,11 +14,11 @@ version = '1.3.5'
 
 android {
     namespace 'com.rockstreamer.iscreensdk'
-    compileSdk 34
+    compileSdk 35
 
     defaultConfig {
         minSdk 21
-        targetSdk 34
+        targetSdk 35
         versionCode 1
         versionName "1.0"
         vectorDrawables.useSupportLibrary = true
@@ -102,7 +102,7 @@ afterEvaluate {
                 // You can then customize attributes of the publication as shown below.
                 groupId = 'com.rockstreamer.iscreensdk'
                 artifactId = 'banglalinksdk'
-                version = '1.3.7'
+                version = '1.3.8'
             }
         }
     }
