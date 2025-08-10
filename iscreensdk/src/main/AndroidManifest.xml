@@ -13,6 +13,7 @@
         android:theme="@style/Theme.BanglalinkSDK">
 
         <activity
+            android:theme="@style/Theme.BanglalinkSDK.NoActionBar"
             android:name=".IScreenActivity"
             android:exported="true"/>
 

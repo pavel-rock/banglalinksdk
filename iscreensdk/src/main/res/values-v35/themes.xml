@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.BanglalinkSDK.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowOptOutEdgeToEdgeEnforcement">true</item>
+    </style>
+
+    <style name="Theme.BanglalinkSDK" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/iscreen_toolbar_color</item>
+        <item name="colorPrimaryVariant">@color/iscreen_toolbar_color</item>
+        <item name="colorOnPrimary">@color/iscreen_toolbar_color</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondaryVariant">@color/teal_700</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/iscreen_toolbar_color</item>
+        <item name="android:windowOptOutEdgeToEdgeEnforcement">true</item>
+        <!-- Customize your theme here. -->
+    </style>
+</resources>

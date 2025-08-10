@@ -20,6 +20,7 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@color/iscreen_toolbar_color</item>
+        <item name="android:windowOptOutEdgeToEdgeEnforcement">true</item>
         <!-- Customize your theme here. -->
     </style>
 
@@ -29,6 +30,7 @@
     <style name="Theme.BanglalinkSDK.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:windowOptOutEdgeToEdgeEnforcement">true</item>
     </style>
 
 </resources>
