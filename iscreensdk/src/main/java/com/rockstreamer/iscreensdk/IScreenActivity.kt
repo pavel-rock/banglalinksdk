@@ -11,10 +11,15 @@ import android.webkit.WebChromeClient
 import android.webkit.WebSettings
 import android.webkit.WebView
 import androidx.activity.OnBackPressedCallback
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.rockstreamer.iscreensdk.utils.CustomWebViewClient
 import com.rockstreamer.iscreensdk.utils.WebViewJsInterface
 import com.rockstreamer.iscreensdk.listeners.oniScreenPremiumCallBack
+import com.rockstreamer.iscreensdk.utils.API_TOKEN
+import com.rockstreamer.iscreensdk.utils.BASE_URL
+import com.rockstreamer.iscreensdk.utils.CONTENT_URL
+import com.rockstreamer.iscreensdk.utils.loginState
 import com.rockstreamer.iscreensdk.utils.registerOnSharedPreferenceChangedListener
 import com.rockstreamer.iscreensdk.utils.unregisterOnSharedPreferenceChangedListener
 
@@ -37,6 +42,13 @@ class IScreenActivity : AppCompatActivity() , SharedPreferences.OnSharedPreferen
 
     }
 
+    private var currentUrl: String = ""
+    private val HOME_URL = "https://iscreen.com.bd/"
+
+    fun setCurrentUrl(url: String) {
+        currentUrl = url
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_web)
@@ -44,11 +56,12 @@ class IScreenActivity : AppCompatActivity() , SharedPreferences.OnSharedPreferen
         webView = findViewById(R.id.webView)
 
         Log.d("APP_STATUS" , "comes on onCreate")
-
         registerOnSharedPreferenceChangedListener(this)
 
+        val url = intent.getStringExtra(CONTENT_URL) ?: BASE_URL
+        initWebView(url)
+
         initBackPressHandler()
-        initWebView()
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             WebView.setWebContentsDebuggingEnabled(true)
@@ -81,13 +94,24 @@ class IScreenActivity : AppCompatActivity() , SharedPreferences.OnSharedPreferen
             }
         }
         Log.d("APP_STATUS", "Comes here")
-        webView.loadUrl("https://stage.rockstreamer.com/?token=${loginState.getString(API_TOKEN, "")}")
+        //webView.loadUrl("${url}?token=${loginState.getString(API_TOKEN, "")}")
+        webView.loadUrl("https://iscreen.com.bd/")
     }
+
 
     private fun initBackPressHandler() {
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                if (::webView.isInitialized && webView.canGoBack()) {
+
+                // If we are on the real home page → exit immediately
+                Log.d("APP_STATUS", " $currentUrl")
+                if (currentUrl == HOME_URL) {
+                    finish()
+                    return
+                }
+
+                // Otherwise, normal WebView back behavior
+                if (webView.canGoBack()) {
                     webView.goBack()
                 } else {
                     finish()
@@ -96,6 +120,7 @@ class IScreenActivity : AppCompatActivity() , SharedPreferences.OnSharedPreferen
         })
     }
 
+
     override fun onDestroy() {
         webView.destroy()
         unregisterOnSharedPreferenceChangedListener(this)
@@ -103,6 +128,6 @@ class IScreenActivity : AppCompatActivity() , SharedPreferences.OnSharedPreferen
     }
 
     override fun onSharedPreferenceChanged(p0: SharedPreferences?, p1: String?) {
-        initWebView()
+        initWebView(BASE_URL)
     }
 }

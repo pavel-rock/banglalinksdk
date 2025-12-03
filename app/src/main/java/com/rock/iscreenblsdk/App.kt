@@ -2,25 +2,15 @@ package com.rock.iscreenblsdk
 
 import android.app.Application
 import android.content.Context
-import com.rockstreamer.iscreensdk.di.contentModule
-import com.rockstreamer.iscreensdk.di.networkModule
-import com.rockstreamer.iscreensdk.di.viewModelModule
 import com.rockstreamer.iscreensdk.utils.ISCREEN_SHAREDPREFERANCE
 import com.rockstreamer.iscreensdk.utils.iScreenSDKInit
 import com.rockstreamer.iscreensdk.utils.loginState
-import org.koin.android.ext.koin.androidContext
-import org.koin.core.context.startKoin
 
 class App: Application() {
 
     override fun onCreate() {
         super.onCreate()
-
         loginState = getSharedPreferences(ISCREEN_SHAREDPREFERANCE, Context.MODE_PRIVATE)
         iScreenSDKInit(apiToken = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NzA0MywicHJvdmlkZXJfaWQiOiIrODgwMTkyNDM1NDQyMyIsInJvbGUiOjAsInVzZXJuYW1lIjoiKzg4MDE5MjQzNTQ0MjMiLCJwbGF0Zm9ybSI6ImlzY3JlZW4iLCJwYXJ0bmVyIjoiQkFOR0xBTElOS19NWUJMIiwic3Vic2NyaWJlIjpmYWxzZSwicGFja2FnZUluZm8iOm51bGwsImlzVFZPRCI6ZmFsc2UsInR2b2RFeHBpcmVEYXRlIjoiMTk3MC0wMS0wMSIsImlhdCI6MTc2NDc2MDE5MCwiZXhwIjoxNzY0Nzg0Nzk5fQ.N-L7ccG4SAdLgEiiXv2DnRxSAMpeKVpFYSKjqkDUxeeiolAXdVWktT1fGUbKnQG86foaZeyjsLlgW4hKvmDNDw0L6n0OtM_0bs9ofz-jzFtq5wPyIJwINfM9Pz1L85VMuK2BBwbkkH7t5amSedYG6oXebw4p5mJvbrwZcLbmlU1FTAu7rvyumFV2TAYkXupnsfF1DcO0x45VXBYm7-V9g7x0c5F_w4zJsWNies6BFUkm4mUiKYJHkFgAQbYJuIETOBhshu1FjsTDKaUExUAN5f8zJPbiL131r0BVJy_usijNQ7prRZ7KdzNfrf3T3OJ6bJkRel7A_cricxps-MjDJlNQGmtV35JtTOjHjhunirTD2VXuinVIqjZsgC00Q2cWz6u3zKpuWev137O0FxgxDWys5pC2ideZuBMTM9cj_1I7Mt19ehgemIe68cVSuJlSxFyTM4BM0SEeA3PGR8d_zqBgitmn7KFNMXyCeexNAQpYGWGv9KA-BjW-sMVIjFDuSE4l_jW3_FmxwqKvO4bCSV-X13y7uJA9ru5tL6wY2DlxfjlNMtnNtD6e2Hz4dGjNVIcsk4FAe6s-uh-tSedvtDw-gXd1jBIHv8oUPCqsBlEdDDrrB5HSpNmuoJPNlvBrX8CUkjgwmrY7BTp4cSP81t-CEuoMqF6TslJY1gra8gs")
-        startKoin {
-            androidContext(this@App)
-            modules(listOf(networkModule , contentModule , viewModelModule))
-        }
     }
 }
