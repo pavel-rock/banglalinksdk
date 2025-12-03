@@ -8,7 +8,7 @@ import com.rockstreamer.iscreensdk.IScreenActivity
 import com.rockstreamer.iscreensdk.listeners.oniScreenPremiumCallBack
 
 
-const val BASE_URL = "https://stage.rockstreamer.com/"
+const val BASE_URL = "https://iscreen.com.bd/"
 
 fun SharedPreferences.putAny(tag: String, any: Any) {
     when (any) {

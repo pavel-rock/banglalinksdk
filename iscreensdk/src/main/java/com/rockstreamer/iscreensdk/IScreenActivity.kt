@@ -93,9 +93,9 @@ class IScreenActivity : AppCompatActivity() , SharedPreferences.OnSharedPreferen
                 return true
             }
         }
-        Log.d("APP_STATUS", "Comes here")
-        //webView.loadUrl("${url}?token=${loginState.getString(API_TOKEN, "")}")
-        webView.loadUrl("https://iscreen.com.bd/")
+        Log.d("APP_STATUS", "Comes into the webview")
+        webView.loadUrl("${url}?token=${loginState.getString(API_TOKEN, "")}")
+        //webView.loadUrl("https://www.chorki.com/")
     }
 
 
