@@ -17,6 +17,14 @@
             android:name=".IScreenActivity"
             android:exported="true"/>
 
+
+<!--        <activity-->
+<!--            android:name="IScreenActivity"-->
+<!--            android:theme="@style/Theme.BanglalinkSDK.NoActionBar"-->
+<!--            android:configChanges="orientation|screenSize|layoutDirection"-->
+<!--            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"-->
+<!--            android:exported="true"/>-->
+
         <activity
             android:name=".activity.VideoDetailsActivity"
             android:theme="@style/Theme.BanglalinkSDK.NoActionBar"

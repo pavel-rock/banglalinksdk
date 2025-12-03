@@ -11,16 +11,22 @@ import androidx.palette.graphics.Palette
 import com.google.gson.Gson
 import com.rockstreamer.iscreensdk.IScreenActivity
 import com.rockstreamer.iscreensdk.R
-import com.rockstreamer.iscreensdk.activity.SeeMoreActivity
-import com.rockstreamer.iscreensdk.activity.SeriesDetailsActivity
-import com.rockstreamer.iscreensdk.activity.VideoDetailsActivity
 import com.rockstreamer.iscreensdk.listeners.oniScreenPremiumCallBack
 import com.rockstreamer.iscreensdk.pojo.ProfileData
 import com.rockstreamer.iscreensdk.pojo.others.Cast
 import com.rockstreamer.iscreensdk.pojo.others.Genres
 import com.rockstreamer.iscreensdk.pojo.series.Directors
+import com.rockstreamer.iscreensdk.utils.API_TOKEN
+import com.rockstreamer.iscreensdk.utils.EXTRA_SEEMORE_ORIENTATION
+import com.rockstreamer.iscreensdk.utils.EXTRA_SEEMORE_TITLE
+import com.rockstreamer.iscreensdk.utils.EXTRA_SEE_MORE_ID
+import com.rockstreamer.iscreensdk.utils.JWTUtils
+import com.rockstreamer.iscreensdk.utils.SERIES_CONTENT
+import com.rockstreamer.iscreensdk.utils.SERIES_ID_PASS
+import com.rockstreamer.iscreensdk.utils.VIDEO_CONTENT
+import com.rockstreamer.iscreensdk.utils.VIDEO_ID_PASS
+import com.rockstreamer.iscreensdk.utils.loginState
 import es.dmoral.toasty.Toasty
-import kotlin.math.log
 
 
 fun getHeaders():Map<String, String>{
@@ -57,6 +63,8 @@ fun Context.showSuccessToast(message:String){
 //    Toasty.error(applicationContext , "$message" , Toast.LENGTH_SHORT , false).show()
 //}
 
+
+const val BASE_URL = ""
 fun Context.openSeriesDetailsActivity(id:String){
     var intent = Intent(this, SeriesDetailsActivity::class.java)
     intent.putExtra(SERIES_ID_PASS, "" + id)
@@ -73,7 +81,7 @@ fun Context.openSeeMoreDetails(id:String, title:String , imageType: String, cont
 }
 
 fun Context.getSubscriptionInformation(): ProfileData {
-    return Gson().fromJson(JWTUtils.decoded(loginState.getString(API_TOKEN , "")), ProfileData::class.java)
+    return Gson().fromJson(JWTUtils.decoded(loginState.getString(API_TOKEN, "")), ProfileData::class.java)
 }
 fun Context.openDetailsScreen(id:String , type:String, callback: oniScreenPremiumCallBack){
     when(type){
@@ -95,6 +103,8 @@ fun Context.openDetailsScreen(id:String , type:String, callback: oniScreenPremiu
 
 
 fun Context.openiScreenContentFromBl(id:String , type:String, callback: oniScreenPremiumCallBack){
+
+    var url = "${url}/content/details/${type}/${id}?"
 
     when(type){
         "video" ->{

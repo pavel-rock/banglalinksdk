@@ -3,41 +3,28 @@ package com.rockstreamer.iscreensdk
 import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
+import android.os.Build
+import android.os.Bundle
 import android.util.Log
-import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.rockstreamer.iscreensdk.api.Status
-import com.rockstreamer.iscreensdk.adapter.CategoryMainAdapterWithoutAds
-import com.rockstreamer.iscreensdk.adapter.SliderAdapter
-import com.rockstreamer.iscreensdk.activity.base.BaseActivity
-import com.rockstreamer.iscreensdk.databinding.IscreenActivityBinding
-import com.rockstreamer.iscreensdk.listeners.OnCategoryCallback
-import com.rockstreamer.iscreensdk.listeners.onBannerCallback
+import android.webkit.ConsoleMessage
+import android.webkit.WebChromeClient
+import android.webkit.WebSettings
+import android.webkit.WebView
+import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.AppCompatActivity
+import com.rockstreamer.iscreensdk.utils.CustomWebViewClient
+import com.rockstreamer.iscreensdk.utils.WebViewJsInterface
 import com.rockstreamer.iscreensdk.listeners.oniScreenPremiumCallBack
-import com.rockstreamer.iscreensdk.pojo.category.Contents
-import com.rockstreamer.iscreensdk.pojo.category.FeatureContent
-import com.rockstreamer.iscreensdk.pojo.category.SortByBannerPosition
-import com.rockstreamer.iscreensdk.pojo.slider.SliderResponse
-import com.rockstreamer.iscreensdk.utils.MixpanelAnalytics
-import com.rockstreamer.iscreensdk.utils.SERIES_CONTENT
-import com.rockstreamer.iscreensdk.utils.VIDEO_CONTENT
-import com.rockstreamer.iscreensdk.utils.getSubscriptionInformation
-import com.rockstreamer.iscreensdk.utils.gone
-import com.rockstreamer.iscreensdk.utils.openDetailsScreen
-import com.rockstreamer.iscreensdk.utils.openSeeMoreDetails
 import com.rockstreamer.iscreensdk.utils.registerOnSharedPreferenceChangedListener
 import com.rockstreamer.iscreensdk.utils.unregisterOnSharedPreferenceChangedListener
-import kotlinx.coroutines.launch
-import org.koin.android.ext.android.inject
-import java.util.Collections
 
-class IScreenActivity : BaseActivity() , onBannerCallback, OnCategoryCallback, oniScreenPremiumCallBack , SharedPreferences.OnSharedPreferenceChangeListener{
+class IScreenActivity : AppCompatActivity() , SharedPreferences.OnSharedPreferenceChangeListener {
 
-    private lateinit var binding: IscreenActivityBinding
-    val mixpanelAnalytics : MixpanelAnalytics by inject()
+    private lateinit var webView: WebView
     companion object{
         var callback: oniScreenPremiumCallBack?=null
-        var context: Context ?= null
+        private const val TAG = "CustomWebViewClient"
+        var context: Context?= null
         fun setInterfaceInstance(callBack: oniScreenPremiumCallBack){
             this.callback = callBack
         }
@@ -50,109 +37,72 @@ class IScreenActivity : BaseActivity() , onBannerCallback, OnCategoryCallback, o
 
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        unregisterOnSharedPreferenceChangedListener(this)
-    }
-
-
-    override fun onCreateActivity() {
-        binding = IscreenActivityBinding.inflate(layoutInflater)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_web)
         context = this
-        setContentView(binding.root)
-        categoryMainAdapterWithAds = CategoryMainAdapterWithoutAds(this)
-        binding.categoryRecycleview.layoutManager = LinearLayoutManager(this)
-        binding.categoryRecycleview.adapter = categoryMainAdapterWithAds
-        binding.idToolbar.toolbarTitle.text = "iScreen"
-        mixpanelAnalytics.trackBlOpen("My Bl Open")
+        webView = findViewById(R.id.webView)
+
+        Log.d("APP_STATUS" , "comes on onCreate")
+
         registerOnSharedPreferenceChangedListener(this)
 
-        binding.idToolbar.toolbarBack.setOnClickListener {
-            finish()
+        initBackPressHandler()
+        initWebView()
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            WebView.setWebContentsDebuggingEnabled(true)
         }
+    }
 
-        sliderViewModel.sliderResponse.observe(this){
-            when(it.status){
-                Status.LOADING ->{
+    private fun initWebView(url : String) {
+        val settings = webView.settings
+        settings.javaScriptEnabled = true
+        settings.domStorageEnabled = true
+        settings.allowFileAccess = true
+        settings.cacheMode = WebSettings.LOAD_NO_CACHE
 
-                }
-                Status.ERROR ->{
+        webView.isVerticalScrollBarEnabled = false
+        webView.isHorizontalScrollBarEnabled = false
 
-                }
+        webView.webViewClient =
+            CustomWebViewClient(this)
+        webView.addJavascriptInterface(WebViewJsInterface(this), "iscreen")
+        webView.clearHistory()
+        webView.clearCache(true)
 
-                Status.INVALIDTOKEN ->{
-                    callback?.onTokenInvalid()
-                }
-
-                Status.SUCCESS ->{
-                    Collections.sort(it.data, SortByBannerPosition())
-                    binding.viewPager.adapter = it.data?.let { it1 ->
-
-                        SliderAdapter(this ,
-                            it1, this)
-                    }
-                    lifecycleScope.launch {
-                        categoryViewModelWithAds.getCategoryByType("video").observe(this@IScreenActivity){
-                            it?.let {
-                                binding.categoryProgressbar.gone()
-                                categoryMainAdapterWithAds.submitData(lifecycle, it)
-                            }
-                        }
-                    }
-                }
+        webView.webChromeClient = object : WebChromeClient() {
+            override fun onConsoleMessage(consoleMessage: ConsoleMessage): Boolean {
+                Log.d(
+                    TAG,
+                    "${consoleMessage.message()} -- From line ${consoleMessage.lineNumber()} of ${consoleMessage.sourceId()}"
+                )
+                return true
             }
         }
+        Log.d("APP_STATUS", "Comes here")
+        webView.loadUrl("https://stage.rockstreamer.com/?token=${loginState.getString(API_TOKEN, "")}")
     }
 
-    override fun onBannerClick(item: SliderResponse) {
-        if (item.premium || item.tvod){
-            if (getSubscriptionInformation().subscribe){
-                openDetailsScreen("${item.contentId}", type = "${item.contentType}", this)
-            }else{
-                mixpanelAnalytics.trackPremiumContent(eventName = item.title)
-                callback?.onPremiumContentClick(context = this, contentId = "${item.contentId}", type = "${item.contentType}" )
+    private fun initBackPressHandler() {
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (::webView.isInitialized && webView.canGoBack()) {
+                    webView.goBack()
+                } else {
+                    finish()
+                }
             }
-        }else{
-            openDetailsScreen("${item.contentId}", type = "${item.contentType}", this)
-        }
+        })
     }
 
-    override fun onCategorySeeMoreCallback(
-        id: String,
-        title: String,
-        type: String,
-        imageType: String
-    ) {
-        openSeeMoreDetails(id = id , title = title ,imageType = imageType, context = this )
+    override fun onDestroy() {
+        webView.destroy()
+        unregisterOnSharedPreferenceChangedListener(this)
+        super.onDestroy()
     }
 
-    override fun onCategoryChildClickCallback(contents: Contents) {
-        if (contents.premium || contents.tvod){
-            if (getSubscriptionInformation().subscribe){
-                openDetailsScreen("${contents.id}", type = "${contents.type}", this)
-            }else{
-                mixpanelAnalytics.trackPremiumContent(eventName = "${contents.title}")
-                callback?.onPremiumContentClick(context = this, contentId = "${contents.id}", type = "${contents.type}" )
-            }
-        }else{
-            openDetailsScreen("${contents.id}", type = "${contents.type}", this)
-        }
-
-    }
-
-    override fun onFeatureContentClick(featureContent: FeatureContent) {
-
-    }
-
-    override fun onPremiumContentClick(context: Context, contentId: String, type: String) {
-        callback?.onPremiumContentClick(this, contentId = contentId , type = type)
-    }
-
-    override fun onTokenInvalid() {
-
-    }
-
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, p1: String?) {
-        sliderViewModel.retrySliderApi()
+    override fun onSharedPreferenceChanged(p0: SharedPreferences?, p1: String?) {
+        initWebView()
     }
 }

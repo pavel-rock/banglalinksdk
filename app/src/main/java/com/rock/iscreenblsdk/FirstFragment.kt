@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.navigation.fragment.findNavController
 import com.rock.iscreenblsdk.databinding.FragmentFirstBinding
 import com.rockstreamer.iscreensdk.listeners.oniScreenPremiumCallBack
 import com.rockstreamer.iscreensdk.utils.openiScreenContentFromBl
@@ -35,7 +34,7 @@ class FirstFragment : Fragment(), oniScreenPremiumCallBack {
         _binding = FragmentFirstBinding.inflate(inflater, container, false)
 
         binding.buttonOpenContent.setOnClickListener {
-            //requireActivity().openiScreenContentFromBl(id = "7975", type = "video", this)
+            requireActivity().openiScreenContentFromBl(id = "7975", type = "video", this)
             requireActivity().openiScreenSDK(this)
         }
         return binding.root
