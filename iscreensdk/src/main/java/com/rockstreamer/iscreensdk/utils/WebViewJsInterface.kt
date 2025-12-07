@@ -4,31 +4,31 @@ import android.content.Context
 import android.util.Log
 import android.webkit.JavascriptInterface
 import android.widget.Toast
+import com.rockstreamer.iscreensdk.listeners.oniScreenPremiumCallBack
 
 
-class WebViewJsInterface(private val context: Context) {
+class WebViewJsInterface(private val context: Context, val callback: oniScreenPremiumCallBack) {
 
     @JavascriptInterface
-    fun tokenStatus(value: String, message: String) {
-        Log.d("APP_STATUS", "comes into token status")
-        Toast.makeText(context, "" + value, Toast.LENGTH_LONG).show()
-        Toast.makeText(context, "" + message, Toast.LENGTH_LONG).show()
+    fun tokenStatus(value: Boolean, message: String) {
+        Log.d("APP_STATUS", "token valid $value")
     }
 
+    private var lastTime = 0L
+    private val THROTTLE_MS = 1000 // allow once per second
+
     @JavascriptInterface
-    fun contentChange(path: String, isPremium: String) {
-        Log.d("APP_STATUS", "comes into content change")
-        Log.d("APP_STATUS", "is premium: ${isPremium}")
-        Toast.makeText(context, "is premium" + isPremium, Toast.LENGTH_LONG).show()
-        Toast.makeText(context, "" + path, Toast.LENGTH_LONG).show()
+    fun contentChange(path: String, isPremium: Boolean) {
+        val now = System.currentTimeMillis()
+
+        if (now - lastTime < THROTTLE_MS) return
+        lastTime = now
+        callback.onPremiumContentClick(isPremium, path)
     }
 
     @JavascriptInterface
     fun eventExecute(params: String, value:String) {
-        Log.d("APP_STATUS", "event execute")
-        Toast.makeText(context, "event $params", Toast.LENGTH_LONG).show()
-        Toast.makeText(context, "value $value", Toast.LENGTH_LONG).show()
-    }
 
+    }
 
 }

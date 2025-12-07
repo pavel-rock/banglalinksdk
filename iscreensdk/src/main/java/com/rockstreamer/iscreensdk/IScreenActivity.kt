@@ -78,9 +78,11 @@ class IScreenActivity : AppCompatActivity() , SharedPreferences.OnSharedPreferen
         webView.isVerticalScrollBarEnabled = false
         webView.isHorizontalScrollBarEnabled = false
 
-        webView.webViewClient =
-            CustomWebViewClient(this)
-        webView.addJavascriptInterface(WebViewJsInterface(this), "iscreen")
+        webView.webViewClient = CustomWebViewClient(this)
+
+        callback?.let { WebViewJsInterface(this, callback = it) }
+            ?.let { webView.addJavascriptInterface(it, "iscreen") }
+
         webView.clearHistory()
         webView.clearCache(true)
 
