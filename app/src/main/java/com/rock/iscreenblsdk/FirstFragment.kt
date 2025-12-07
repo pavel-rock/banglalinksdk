@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.rock.iscreenblsdk.databinding.FragmentFirstBinding
 import com.rockstreamer.iscreensdk.listeners.oniScreenPremiumCallBack
+import com.rockstreamer.iscreensdk.utils.openiScreenContentFromBl
 import com.rockstreamer.iscreensdk.utils.openiScreenSDK
 
 /**
@@ -39,7 +40,7 @@ class FirstFragment : Fragment(), oniScreenPremiumCallBack {
         super.onViewCreated(view, savedInstanceState)
 
         binding.buttonFirst.setOnClickListener {
-            requireActivity().openiScreenSDK(this)
+            requireActivity().openiScreenContentFromBl(id = "paap-kahini", type = "series", this)
         }
     }
 
@@ -51,7 +52,7 @@ class FirstFragment : Fragment(), oniScreenPremiumCallBack {
     override fun onPremiumContentClick(isPremium: Boolean, contentPath: String) {
         //Log.d("APP_STATUS", "comes into $contentPath")
         //Log.d("APP_STATUS", "isPremium $isPremium")
-        //Log.d("APP_STATUS", "isPremium $isPremium")
+        Log.d("APP_STATUS", "isPremium $isPremium")
     }
 
     override fun onTokenInvalid() {

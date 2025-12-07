@@ -6,41 +6,38 @@ import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.webkit.ConsoleMessage
 import android.webkit.WebChromeClient
 import android.webkit.WebSettings
 import android.webkit.WebView
+import android.widget.ImageView
+import android.widget.ProgressBar
 import androidx.activity.OnBackPressedCallback
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import com.rockstreamer.iscreensdk.utils.CustomWebViewClient
-import com.rockstreamer.iscreensdk.utils.WebViewJsInterface
 import com.rockstreamer.iscreensdk.listeners.oniScreenPremiumCallBack
-import com.rockstreamer.iscreensdk.utils.API_TOKEN
-import com.rockstreamer.iscreensdk.utils.BASE_URL
-import com.rockstreamer.iscreensdk.utils.CONTENT_URL
-import com.rockstreamer.iscreensdk.utils.loginState
-import com.rockstreamer.iscreensdk.utils.registerOnSharedPreferenceChangedListener
-import com.rockstreamer.iscreensdk.utils.unregisterOnSharedPreferenceChangedListener
+import com.rockstreamer.iscreensdk.utils.*
 
-class IScreenActivity : AppCompatActivity() , SharedPreferences.OnSharedPreferenceChangeListener {
+class IScreenActivity :
+    AppCompatActivity(),
+    SharedPreferences.OnSharedPreferenceChangeListener {
+
+    companion object {
+        private const val TAG = "IScreenActivity"
+
+        var callback: oniScreenPremiumCallBack? = null
+        var context: Context? = null
+
+        fun setInterfaceInstance(call: oniScreenPremiumCallBack) {
+            callback = call
+        }
+
+        fun stopiScreen() {
+            (context as? Activity)?.finish()
+        }
+    }
 
     private lateinit var webView: WebView
-    companion object{
-        var callback: oniScreenPremiumCallBack?=null
-        private const val TAG = "CustomWebViewClient"
-        var context: Context?= null
-        fun setInterfaceInstance(callBack: oniScreenPremiumCallBack){
-            this.callback = callBack
-        }
-
-        fun stopiScreen(){
-            if (context!=null){
-                (context as Activity).finish()
-            }
-        }
-
-    }
 
     private var currentUrl: String = ""
     private val HOME_URL = "https://iscreen.com.bd/"
@@ -52,23 +49,33 @@ class IScreenActivity : AppCompatActivity() , SharedPreferences.OnSharedPreferen
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_web)
-        context = this
-        webView = findViewById(R.id.webView)
 
-        Log.d("APP_STATUS" , "comes on onCreate")
+        context = this
         registerOnSharedPreferenceChangedListener(this)
 
-        val url = intent.getStringExtra(CONTENT_URL) ?: BASE_URL
-        initWebView(url)
+        webView = findViewById(R.id.webview)
 
+        val url = intent.getStringExtra(CONTENT_URL) ?: BASE_URL
+        Log.d("APP_STATUS", "Initial URL: $url")
+
+        initWebView(url)
         initBackPressHandler()
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             WebView.setWebContentsDebuggingEnabled(true)
         }
+
+        findViewById<ImageView>(R.id.toolbar_back).setOnClickListener {
+            goBack()
+        }
+
+        findViewById<ImageView>(R.id.toolbar_close).setOnClickListener {
+            finish()
+        }
     }
 
-    private fun initWebView(url : String) {
+    private fun initWebView(url: String) {
+
         val settings = webView.settings
         settings.javaScriptEnabled = true
         settings.domStorageEnabled = true
@@ -78,58 +85,72 @@ class IScreenActivity : AppCompatActivity() , SharedPreferences.OnSharedPreferen
         webView.isVerticalScrollBarEnabled = false
         webView.isHorizontalScrollBarEnabled = false
 
-        webView.webViewClient = CustomWebViewClient(this)
+        // Attach WebViewClient with progress handling
+        webView.webViewClient = CustomWebViewClient(this) { isLoading ->
+            Log.d("APP_STATUS","is loading: ${isLoading}")
+            //showLoading(isLoading)
+        }
 
-        callback?.let { WebViewJsInterface(this, callback = it) }
-            ?.let { webView.addJavascriptInterface(it, "iscreen") }
+        // Attach JS interface
+        callback?.let { cb ->
+            webView.addJavascriptInterface(
+                WebViewJsInterface(this, callback = cb),
+                "iscreen"
+            )
+        }
 
         webView.clearHistory()
         webView.clearCache(true)
 
+        // ChromeClient for console logs
         webView.webChromeClient = object : WebChromeClient() {
             override fun onConsoleMessage(consoleMessage: ConsoleMessage): Boolean {
                 Log.d(
                     TAG,
-                    "${consoleMessage.message()} -- From line ${consoleMessage.lineNumber()} of ${consoleMessage.sourceId()}"
+                    "${consoleMessage.message()} -- line ${consoleMessage.lineNumber()} of ${consoleMessage.sourceId()}"
                 )
                 return true
             }
         }
-        Log.d("APP_STATUS", "Comes into the webview")
-        webView.loadUrl("${url}?token=${loginState.getString(API_TOKEN, "")}")
-        //webView.loadUrl("https://www.chorki.com/")
-    }
 
+        val token = loginState.getString(API_TOKEN, "")
+        val fullUrl = "$url?token=$token"
+        Log.d("APP_STATUS", "WebView loading: $fullUrl")
+
+        webView.loadUrl(fullUrl)
+    }
 
     private fun initBackPressHandler() {
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
 
-                // If we are on the real home page → exit immediately
-                Log.d("APP_STATUS", " $currentUrl")
-                if (currentUrl == HOME_URL) {
-                    finish()
-                    return
-                }
+                Log.d("APP_STATUS", "Current URL = $currentUrl")
 
-                // Otherwise, normal WebView back behavior
-                if (webView.canGoBack()) {
-                    webView.goBack()
-                } else {
+                // If on homepage → close immediately
+                if (currentUrl.startsWith(HOME_URL)) {
                     finish()
+                } else {
+                    goBack()
                 }
             }
         })
     }
 
-
-    override fun onDestroy() {
-        webView.destroy()
-        unregisterOnSharedPreferenceChangedListener(this)
-        super.onDestroy()
+    private fun goBack() {
+        if (webView.canGoBack()) {
+            webView.goBack()
+        } else {
+            finish()
+        }
     }
 
     override fun onSharedPreferenceChanged(p0: SharedPreferences?, p1: String?) {
         initWebView(BASE_URL)
+    }
+
+    override fun onDestroy() {
+        unregisterOnSharedPreferenceChangedListener(this)
+        webView.destroy()
+        super.onDestroy()
     }
 }

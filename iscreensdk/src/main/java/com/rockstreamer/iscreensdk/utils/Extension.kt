@@ -26,7 +26,7 @@ fun SharedPreferences.clean(){
 
 fun Context.openiScreenContentFromBl(id:String , type:String, callback: oniScreenPremiumCallBack){
     IScreenActivity.setInterfaceInstance(callback)
-    var url = "${BASE_URL}/content/details/${type}/${id}"
+    var url = "${BASE_URL}content/details/${type}/${id}"
     var intent = Intent(this , IScreenActivity::class.java)
     intent.putExtra(CONTENT_URL , url)
     startActivity(intent)
