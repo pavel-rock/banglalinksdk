@@ -40,7 +40,7 @@ class FirstFragment : Fragment(), oniScreenPremiumCallBack {
         super.onViewCreated(view, savedInstanceState)
 
         binding.buttonFirst.setOnClickListener {
-            requireActivity().openiScreenContentFromBl(id = "paap-kahini", type = "series", this)
+            requireActivity().openiScreenContentFromBl(id = "antaratma", type = "video", this)
         }
     }
 

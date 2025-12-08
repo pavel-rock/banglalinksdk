@@ -46,6 +46,8 @@ class IScreenActivity :
         currentUrl = url
     }
 
+    lateinit var progressBar: ProgressBar
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_web)
@@ -54,6 +56,7 @@ class IScreenActivity :
         registerOnSharedPreferenceChangedListener(this)
 
         webView = findViewById(R.id.webview)
+        progressBar = findViewById(R.id.progressbar)
 
         val url = intent.getStringExtra(CONTENT_URL) ?: BASE_URL
         Log.d("APP_STATUS", "Initial URL: $url")
@@ -87,8 +90,7 @@ class IScreenActivity :
 
         // Attach WebViewClient with progress handling
         webView.webViewClient = CustomWebViewClient(this) { isLoading ->
-            Log.d("APP_STATUS","is loading: ${isLoading}")
-            //showLoading(isLoading)
+            showLoading(isLoading)
         }
 
         // Attach JS interface
@@ -118,6 +120,10 @@ class IScreenActivity :
         Log.d("APP_STATUS", "WebView loading: $fullUrl")
 
         webView.loadUrl(fullUrl)
+    }
+
+    private fun showLoading(show: Boolean) {
+        progressBar.visibility = if (show) View.VISIBLE else View.GONE
     }
 
     private fun initBackPressHandler() {
