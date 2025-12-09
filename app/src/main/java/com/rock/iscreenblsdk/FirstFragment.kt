@@ -1,4 +1,5 @@
 package com.rock.iscreenblsdk
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -9,6 +10,7 @@ import com.rock.iscreenblsdk.databinding.FragmentFirstBinding
 import com.rockstreamer.iscreensdk.listeners.oniScreenPremiumCallBack
 import com.rockstreamer.iscreensdk.utils.openiScreenContentFromBl
 import com.rockstreamer.iscreensdk.utils.openiScreenSDK
+import java.util.Timer
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
@@ -30,7 +32,8 @@ class FirstFragment : Fragment(), oniScreenPremiumCallBack {
         _binding = FragmentFirstBinding.inflate(inflater, container, false)
 
         binding.buttonOpenContent.setOnClickListener {
-            requireActivity().openiScreenSDK(this)
+            requireActivity().openiScreenContentFromBl(id = "chokro", type = "series", this)
+
         }
         return binding.root
 
@@ -38,9 +41,8 @@ class FirstFragment : Fragment(), oniScreenPremiumCallBack {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         binding.buttonFirst.setOnClickListener {
-            requireActivity().openiScreenContentFromBl(id = "840-series", type = "series", this)
+            requireActivity().openiScreenSDK(this)
         }
     }
 
@@ -49,8 +51,8 @@ class FirstFragment : Fragment(), oniScreenPremiumCallBack {
         _binding = null
     }
 
-    override fun onPremiumContentClick(isPremium: Boolean) {
-        Log.d("APP_STATUS", "isPremium $isPremium")
+    override fun onPremiumContentClick(context: Context, contentId: String, type: String) {
+
     }
 
     override fun onTokenInvalid(tokenValid: Boolean) {

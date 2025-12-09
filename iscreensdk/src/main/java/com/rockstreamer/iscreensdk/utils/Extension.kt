@@ -3,9 +3,14 @@ package com.rockstreamer.iscreensdk.utils
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.os.Build
 import android.view.View
+import androidx.annotation.RequiresApi
 import com.rockstreamer.iscreensdk.IScreenActivity
 import com.rockstreamer.iscreensdk.listeners.oniScreenPremiumCallBack
+import java.net.URI
+import java.net.URLDecoder
+import java.nio.charset.StandardCharsets
 
 
 const val BASE_URL = "https://iscreen.com.bd/"
@@ -22,6 +27,30 @@ fun SharedPreferences.clean(){
     edit().clear()
 }
 
+
+data class PlayParts(val type: String, val slug: String)
+
+/** Returns the segments after `/play/` -> (type, slug), or null if not matched. */
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
+fun parseAfterPlay(url: String): PlayParts? = runCatching {
+    // Clean weird line-separator chars that sometimes sneak in from copy/paste
+    val cleaned = url.trim()
+        .replace("\u2028", "") // LS
+        .replace("\u2029", "") // PS
+
+    val segments = URI(cleaned).path
+        .split('/')
+        .filter { it.isNotEmpty() }
+
+    val playIdx = segments.indexOf("play")
+    if (playIdx == -1) return null
+
+    val type = segments.getOrNull(playIdx + 1)?.lowercase() ?: return null
+    val rawSlug = segments.getOrNull(playIdx + 2) ?: return null
+    val slug = URLDecoder.decode(rawSlug, StandardCharsets.UTF_8)
+
+    PlayParts(type, slug)
+}.getOrNull()
 
 
 fun Context.openiScreenContentFromBl(id:String , type:String, callback: oniScreenPremiumCallBack){
