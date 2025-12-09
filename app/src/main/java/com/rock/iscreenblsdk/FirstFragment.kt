@@ -40,7 +40,7 @@ class FirstFragment : Fragment(), oniScreenPremiumCallBack {
         super.onViewCreated(view, savedInstanceState)
 
         binding.buttonFirst.setOnClickListener {
-            requireActivity().openiScreenContentFromBl(id = "antaratma", type = "video", this)
+            requireActivity().openiScreenContentFromBl(id = "840-series", type = "series", this)
         }
     }
 
@@ -49,13 +49,11 @@ class FirstFragment : Fragment(), oniScreenPremiumCallBack {
         _binding = null
     }
 
-    override fun onPremiumContentClick(isPremium: Boolean, contentPath: String) {
-        //Log.d("APP_STATUS", "comes into $contentPath")
-        //Log.d("APP_STATUS", "isPremium $isPremium")
+    override fun onPremiumContentClick(isPremium: Boolean) {
         Log.d("APP_STATUS", "isPremium $isPremium")
     }
 
-    override fun onTokenInvalid() {
+    override fun onTokenInvalid(tokenValid: Boolean) {
 
     }
 }

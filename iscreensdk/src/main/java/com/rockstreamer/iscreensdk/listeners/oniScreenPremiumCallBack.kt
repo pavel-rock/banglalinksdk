@@ -1,6 +1,6 @@
 package com.rockstreamer.iscreensdk.listeners
 
 interface  oniScreenPremiumCallBack {
-    fun onPremiumContentClick(isPremium : Boolean , contentPath: String)
-    fun onTokenInvalid()
+    fun onPremiumContentClick(isPremium : Boolean)
+    fun onTokenInvalid(tokenValid: Boolean)
 }

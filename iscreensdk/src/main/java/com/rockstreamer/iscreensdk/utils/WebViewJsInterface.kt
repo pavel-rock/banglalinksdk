@@ -12,6 +12,7 @@ class WebViewJsInterface(private val context: Context, val callback: oniScreenPr
     @JavascriptInterface
     fun tokenStatus(value: Boolean, message: String) {
         Log.d("APP_STATUS", "token valid $value")
+        callback.onTokenInvalid(value)
     }
 
     private var lastTime = 0L
@@ -23,7 +24,7 @@ class WebViewJsInterface(private val context: Context, val callback: oniScreenPr
 
         if (now - lastTime < THROTTLE_MS) return
         lastTime = now
-        callback.onPremiumContentClick(isPremium, path)
+        callback.onPremiumContentClick(isPremium)
     }
 
     @JavascriptInterface
