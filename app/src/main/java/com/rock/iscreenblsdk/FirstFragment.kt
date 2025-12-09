@@ -32,7 +32,7 @@ class FirstFragment : Fragment(), oniScreenPremiumCallBack {
         _binding = FragmentFirstBinding.inflate(inflater, container, false)
 
         binding.buttonOpenContent.setOnClickListener {
-            requireActivity().openiScreenContentFromBl(id = "chokro", type = "series", this)
+            requireActivity().openiScreenContentFromBl(slug = "chokro", type = "series", this)
 
         }
         return binding.root
@@ -51,8 +51,8 @@ class FirstFragment : Fragment(), oniScreenPremiumCallBack {
         _binding = null
     }
 
-    override fun onPremiumContentClick(context: Context, contentId: String, type: String) {
-
+    override fun onPremiumContentClick(context: Context, slug: String, type: String) {
+        Log.d("APP_STATUS", "onPremiumContentClick $slug $type")
     }
 
     override fun onTokenInvalid(tokenValid: Boolean) {

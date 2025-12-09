@@ -29,7 +29,7 @@ class WebViewJsInterface(private val context: Context, val callback: oniScreenPr
         if (now - lastTime < THROTTLE_MS) return
         lastTime = now
         var playParts : PlayParts? = parseAfterPlay(path)
-        playParts?.slug?.let { callback.onPremiumContentClick(context = context , contentId = it, type = playParts.type) }
+        playParts?.slug?.let { callback.onPremiumContentClick(context = context , slug = it, type = playParts.type) }
     }
 
     @JavascriptInterface

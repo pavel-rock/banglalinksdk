@@ -53,9 +53,9 @@ fun parseAfterPlay(url: String): PlayParts? = runCatching {
 }.getOrNull()
 
 
-fun Context.openiScreenContentFromBl(id:String , type:String, callback: oniScreenPremiumCallBack){
+fun Context.openiScreenContentFromBl(slug:String , type:String, callback: oniScreenPremiumCallBack){
     IScreenActivity.setInterfaceInstance(callback)
-    var url = "${BASE_URL}content/details/${type}/${id}"
+    var url = "${BASE_URL}content/details/${type}/${slug}"
     var intent = Intent(this , IScreenActivity::class.java)
     intent.putExtra(CONTENT_URL , url)
     startActivity(intent)
