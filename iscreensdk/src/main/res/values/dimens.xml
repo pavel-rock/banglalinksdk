@@ -6,13 +6,6 @@
     <dimen name="progress_container_height">20dp</dimen>
 
     <dimen name="tab_height">48dp</dimen>
-    <dimen name="back_arrow_height">@dimen/_20sdp</dimen>
-    <dimen name="back_arrow_width">@dimen/_20sdp</dimen>
-    <dimen name="sign_in_text_size">@dimen/_12sdp</dimen>
-    <dimen name="crown_icon_padding">@dimen/_4sdp</dimen>
-    <dimen name="login_image_height">@dimen/_22sdp</dimen>
-    <dimen name="login_image_weight">@dimen/_22sdp</dimen>
-
 
     <item name="gnt_text_row_weight" format="float" type="dimen">0.25</item>
     <dimen name="gnt_default_margin">10dp</dimen>
@@ -26,39 +19,12 @@
     <dimen name="gnt_no_size">0dp</dimen>
 
     <dimen name="notification_big_image_size">112dp</dimen>
-    <dimen name="login_button_left_align">@dimen/_16sdp</dimen>
-    <dimen name="icon_margin">@dimen/_16sdp</dimen>
-    <dimen name="login_button_height">@dimen/_35sdp</dimen>
-    <dimen name="login_button_width">@dimen/_287sdp</dimen>
-
-    <dimen name="seemore_text_size">@dimen/_13sdp</dimen>
-
 
     <dimen name="list_item_image_icon_padding">8dp</dimen>
 
     <dimen name="mini_player_height">56dp</dimen>
     <dimen name="bottom_nav_height">80dp</dimen>
     <dimen name="bottom_nav_mini_player_height">136dp</dimen>
-    <dimen name="details_page_margin">@dimen/_14sdp</dimen>
-    <dimen name="action_layout_size">@dimen/_20sdp</dimen>
-    <dimen name="action_text_size">@dimen/_12sdp</dimen>
-
-
-    <dimen name="image_radious">@dimen/_4sdp</dimen>
-    <dimen name="video_image_height">@dimen/_120sdp</dimen>
-    <dimen name="video_image_width">@dimen/_169sdp</dimen>
-
-    <dimen name="audio_image_width">@dimen/_105sdp</dimen>
-    <dimen name="audio_image_height">@dimen/_105sdp</dimen>
-    <dimen name="category_title_size">@dimen/_13sdp</dimen>
-
-    <!-- toolbar -->
-    <dimen name="tool_bar_title_size">@dimen/_15sdp</dimen>
-    <dimen name="tool_bar_height">@dimen/_47sdp</dimen>
-    <!-- spacing -->
-
-    <dimen name="margin_left_14">@dimen/_14sdp</dimen>
-    <dimen name="margin_left_27">@dimen/_27sdp</dimen>
 
     <dimen name="app_widget_classic_height">96dp</dimen>
     <dimen name="app_widget_classic_image_size">96dp</dimen>
@@ -90,7 +56,7 @@
     <dimen name="icon_notification_dimen">32dp</dimen>
     <dimen name="toolbar_margin_horizontal">8dp</dimen>
     <dimen name="toolbar_height">48dp</dimen>
-    <dimen name="item_song_height">@dimen/_60sdp</dimen>
+
     <dimen name="button_padding_vertical">10dp</dimen>
     <dimen name="list_pref_guideline_begin">56dp</dimen>
     <dimen name="pref_title_padding">72dp</dimen>
@@ -114,19 +80,6 @@
     <dimen name="seekbar_padding">16dp</dimen>
     <dimen name="cast_mini_controller_height">64dp</dimen>
     <dimen name="cast_mini_controller_image_size">48dp</dimen>
-
-    <dimen name="login_button_text_size">@dimen/_11sdp</dimen>
-    <dimen name="demo_sheet_rounded_corner">@dimen/_14sdp</dimen>
-
-    <dimen name="song_art_height">@dimen/_37sdp</dimen>
-    <dimen name="song_art_width">@dimen/_37sdp</dimen>
-    <dimen name="feature_content_padding_top">@dimen/_10sdp</dimen>
-    <dimen name="child_recycleview_start_padding">@dimen/_1sdp</dimen>
-    <dimen name="category_title_left_padding">@dimen/_8sdp</dimen>
-
-
-    <dimen name="water_mark_width">@dimen/_59sdp</dimen>
-    <dimen name="water_mark_height">@dimen/_22sdp</dimen>
 
 
 </resources>
