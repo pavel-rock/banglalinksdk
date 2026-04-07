@@ -56,6 +56,7 @@ class FirstFragment : Fragment(), oniScreenPremiumCallBack {
     }
 
     override fun onTokenInvalid(tokenValid: Boolean) {
+        Log.d("APP_STATUS", "on token invalid: ${tokenValid}")
 
     }
 }
